@@ -6,7 +6,7 @@
 /*   By: sscheini <sscheini@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/15 13:48:27 by sscheini          #+#    #+#             */
-/*   Updated: 2025/01/07 18:57:22 by sscheini         ###   ########.fr       */
+/*   Updated: 2025/04/29 19:31:43 by sscheini         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,8 @@ char	*ft_strnstr(const char *big, const char *little, size_t len)
 	size_t	i;
 	int		little_len;
 
+	if (!big)
+		return (NULL);
 	little_len = ft_strlen(little);
 	if (!little_len)
 		return ((char *) big);

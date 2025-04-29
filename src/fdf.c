@@ -6,7 +6,7 @@
 /*   By: sscheini <sscheini@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 16:08:24 by sscheini          #+#    #+#             */
-/*   Updated: 2025/03/27 21:05:40 by sscheini         ###   ########.fr       */
+/*   Updated: 2025/04/29 19:57:18 by sscheini         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,21 +18,67 @@
  * @param[in] fdf The main setting fdf structure.
  * @param[in] errin The MLX index number of the error in question.
  */
-static void	ft_forcend(t_fdf_settings *fdf, int errin)
+void	ft_forcend(t_fdf *fdf, int errin)
 {
-	int			i;
+	int		i;
 
-	if (fdf->window)
+	if ((*fdf).img)
+		mlx_delete_image(fdf->window, fdf->img);
+	if ((*fdf).window)
 		mlx_terminate(fdf->window);
-	if ((*fdf->plane).height)
+	if (fdf->plane.basis)
 	{
 		i = -1;
-		while (fdf->plane->height[++i])
-			free(fdf->plane->height[i]);
-		free(fdf->plane->height);
+		while (fdf->plane.basis[++i])
+		{
+			free(fdf->plane.basis[i]);
+			free(fdf->plane.shift[i]);
+		}
+		free(fdf->plane.shift);
+		free(fdf->plane.basis);
 	}
-	ft_printfd(2, "Error: %s.\n", mlx_strerror(errin));
-	exit(EXIT_FAILURE);
+	if (errin)
+	{
+		ft_printfd(2, "Error: %s.\n", mlx_strerror(errin));
+		exit(EXIT_FAILURE);
+	}
+	exit(EXIT_SUCCESS);
+}
+
+/**
+ * Initializes each T_VECTOR on it's default T_MAP basis, giving each axi
+ * it's correspondent X, Y and Z value.
+ * @param[in] fdf The main setting fdf structure.
+ * @param[in] plane The text based three dimensional plane values.
+ * @note It also saves the pixel colour if it's detailed. If not, it sets it
+ * to white.
+ */
+static void	ft_vector_read(t_fdf *fdf, char ***plane)
+{
+	char		*colour;
+	int			x;
+	int			y;
+
+	y = -1;
+	while (++y < fdf->plane.height)
+	{
+		fdf->plane.basis[y] = malloc(fdf->plane.widht * sizeof(t_vector));
+		if (!fdf->plane.basis[y])
+			ft_forcend(fdf, MLX_MEMFAIL);
+		x = -1;
+		while (++x < fdf->plane.widht)
+		{
+			if (!plane[y][x])
+				break;
+			fdf->plane.basis[y][x].axi.x = x - (fdf->plane.widht / 2);
+			fdf->plane.basis[y][x].axi.y = y - (fdf->plane.height / 2);
+			fdf->plane.basis[y][x].axi.z = ft_atoi(plane[y][x]);
+			colour = ft_strnstr(plane[y][x], ",0x", ft_strlen(plane[y][x]));
+			fdf->plane.basis[y][x].colour = ft_get_colour(colour);
+		}
+		ft_split_free(plane[y]);
+	}
+	free(plane);
 }
 
 /**
@@ -43,33 +89,32 @@ static void	ft_forcend(t_fdf_settings *fdf, int errin)
  * X - Y coordinates. (plane[X][Y] = "Z")
  * @note If any error occurs, the program ends.
  */
-static void	ft_create_map(t_fdf_settings *fdf, char ***plane)
+static void	ft_map_creation(t_fdf *fdf, char ***plane)
 {
-	int		x;
-	int		y;
+	int	x;
+	int	y;
 
-	fdf->plane->widht = 0;
-	fdf->plane->height = NULL;
+	fdf->plane.basis = NULL;
+	fdf->plane.widht = 0;
 	if (!plane || !plane[0])
-		ft_forcend(fdf, MLX_INVEXT);
-	fdf->plane->height = malloc(fdf->plane->lenght * sizeof(t_axi *));
-	if (!fdf->plane->height || !plane[0])
+		ft_forcend(fdf, MLX_INVFILE);
+	fdf->plane.basis = malloc((fdf->plane.height + 1) * sizeof(t_vector *));
+	fdf->plane.shift = malloc((fdf->plane.height + 1) * sizeof(t_vector *));
+	if (!fdf->plane.basis || !fdf->plane.basis)
 		ft_forcend(fdf, MLX_MEMFAIL);
-	y = -1;
-	while (plane[0][++y])
-		fdf->plane->widht++;
+	fdf->plane.basis[fdf->plane.height] = NULL;
+	fdf->plane.basis[fdf->plane.height] = NULL;
 	x = -1;
-	while (plane[++x])
+	while (plane[0][++x])
+		fdf->plane.widht++;
+	ft_vector_read(fdf, plane);
+	y = -1;
+	while (fdf->plane.basis[++y])
 	{
-		fdf->plane->height[x] = malloc(fdf->plane->widht * sizeof(t_axi));
-		if (!fdf->plane->height[x])
+		fdf->plane.shift[y] = malloc(fdf->plane.widht * sizeof(t_vector));
+		if (!fdf->plane.shift[y])
 			ft_forcend(fdf, MLX_MEMFAIL);
-		y = -1;
-		while (plane[x][++y])
-			fdf->plane->height[x][y].value = ft_atoi(plane[x][y]);//atof
-		ft_split_free(plane[x]);
 	}
-	free(plane);
 }
 
 /**
@@ -79,7 +124,7 @@ static void	ft_create_map(t_fdf_settings *fdf, char ***plane)
  * @param[in] file_name The name of the .fdf file or absolute path to it.
  * @note If any error occurs, the program ends.
  */
-static void	ft_initialize_map(t_fdf_settings *fdf, char *file_name)
+static void	ft_map_init(t_fdf *fdf, char *file_name)
 {
 	char	***plane;
 	char	**lines;
@@ -89,74 +134,53 @@ static void	ft_initialize_map(t_fdf_settings *fdf, char *file_name)
 	fd = open(file_name, O_RDONLY);
 	if (fd < 0)
 		ft_forcend(fdf, MLX_INVFILE);
-	fdf->plane = malloc(sizeof(t_map));
-	fdf->plane->lenght = ft_read_file(&lines, fd);
+	fdf->plane.height = ft_read_file(&lines, fd);
 	close(fd);
 	if (!lines)
 		ft_forcend(fdf, MLX_MEMFAIL);
-	plane = malloc((fdf->plane->lenght + 1) * sizeof(char **));
+	plane = malloc((fdf->plane.height + 1) * sizeof(char **));
 	if (!plane)
 	{
 		ft_split_free(lines);
 		ft_forcend(fdf, MLX_MEMFAIL);
 	}
-	plane[fdf->plane->lenght] = NULL;
+	plane[fdf->plane.height] = NULL;
 	i = -1;
 	while (lines[++i])
 		plane[i] = ft_split(lines[i], ' ');
 	ft_split_free(lines);
-	ft_create_map(fdf, plane);
-}
-
-/**
- * Initializes and loops a T_MLX structure, making the program window
- * in the process.
- * @param[out] fdf The main fdf setting structure.
- */
-static void	ft_initialize_window(t_fdf_settings *fdf)
-{
-	fdf->window = NULL;
-	fdf->window = mlx_init(1980, 1080, "FDF", false);
-	if (!fdf->window)
-		ft_forcend(fdf, MLX_WINFAIL);
-	mlx_key_hook(fdf->window, &ft_keyhook, fdf->window);
-	fdf->img = mlx_new_image(fdf->window, 1980, 1080);
-	if (!fdf->img)
-		ft_forcend(fdf, MLX_MEMFAIL);
-	mlx_loop(fdf->window);
+	ft_map_creation(fdf, plane);
 }
 
 /**
  * Fdf is a program capable of printing an .fdf map file as a
- * three dimensions image on it's own program window.
+ * three dimensional image on it's own program window.
  */
 int	main(int argc, char **argv)
 {
-	t_fdf_settings	fdf;
+	t_fdf	fdf;
+	int		img_width;
+	int		img_height;
 
 	if (!argv[0])
 		exit(EXIT_FAILURE);
-	if (argc != 2)
+	if (argc != 2 || !ft_strnstr(argv[1], ".fdf", ft_strlen(argv[1])))
 	{
-		ft_printfd(2, "Error: %s.\n", mlx_strerror(MLX_INVFILE));
+		ft_printfd(2, "Error: %s.\n", mlx_strerror(MLX_INVEXT));
 		exit(EXIT_FAILURE);
 	}
 	fdf.img = NULL;
-	fdf.plane = NULL;
 	fdf.window = NULL;
-	ft_initialize_window(&fdf);
-	ft_initialize_map(&fdf, argv[1]);
-	
-	int x = -1;
-	
-	while (++x < fdf.plane->lenght)
-	{
-		int y = -1;
-		while (++y < fdf.plane->widht)
-			ft_printf("% 03i ", fdf.plane->height[x][y]);
-		ft_printf("\n");
-	}
-	//ft_draw_map(&fdf);
-	mlx_terminate(fdf.window);
-	exit(EXIT_SUCCESS);
+	ft_map_init(&fdf, argv[1]);
+	fdf.window = mlx_init(WIN_WIDHT, WIN_HEIGHT, "FDF", false);
+	if (!fdf.window)
+		ft_forcend(&fdf, MLX_WINFAIL);
+	img_width = WIN_WIDHT - ((2 * WIN_WIDHT) / 10);
+	img_height = WIN_HEIGHT;
+	fdf.img = mlx_new_image(fdf.window, img_width, img_height);
+	if (!fdf.img)
+		ft_forcend(&fdf, MLX_MEMFAIL);
+	ft_default_settings(&fdf, ISOMETRIC_PROJECTION);
+	ft_draw_image(&fdf);
+	ft_forcend(&fdf, MLX_SUCCESS);
 }

@@ -55,6 +55,7 @@ SRC		=	$(SRCDIR)ft_atoi.c						\
 			$(SRCDIR)ft_split_free.c				\
 			$(SRCDIR)get_next_line_bonus.c			\
 			$(SRCDIR)get_next_line_utils_bonus.c	\
+			$(SRCDIR)ft_atoi_base.c					\
 #
 SRCDIR	=	./
 OBJDIR	=	obj/
@@ -63,7 +64,7 @@ NAME	=	libft.a
 
 CC		=	cc
 GCC		=	gcc
-CFLAGS	=	-Wall -Wextra -Werror
+CFLAGS	=	-Wall -Wextra -Werror -g
 
 # --------------------------- Makefile Object Compilation -------------------------- #
 

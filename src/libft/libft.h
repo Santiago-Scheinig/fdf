@@ -6,7 +6,7 @@
 /*   By: sscheini <sscheini@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 17:37:54 by sscheini          #+#    #+#             */
-/*   Updated: 2025/03/20 20:14:09 by sscheini         ###   ########.fr       */
+/*   Updated: 2025/04/29 18:59:04 by sscheini         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,6 +121,16 @@ long	ft_atol(const char *nptr);
 
 /* Returns an INT with the first number found on a CHAR *.					*/
 int		ft_atoi(const char *nptr);
+
+/**
+ * Returns an INT with the first number found on CHAR * in accordance
+ * to the specified base.
+ * @param[in] str The string where the base number is saved.
+ * @param[in] base The base in which the number must be found.
+ * @note If str has characters not included on the base, or str doesn't
+ * exists, returns 0.
+ */
+int		ft_atoi_base(char *str, const char *base);
 
 /* Writes 'n' as a STRING into the 'fd' passed as an argument.				*/
 /* - Returns the amount of characters printed.								*/

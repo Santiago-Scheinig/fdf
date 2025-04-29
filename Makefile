@@ -3,6 +3,9 @@
 MAIN		=	$(SRCDIR)fdf.c		\
 
 SRC			=	$(SRCDIR)hooks.c	\
+				$(SRCDIR)draw.c		\
+				$(SRCDIR)utils.c	\
+				$(SRCDIR)camera.c	\
 
 BSRC		=	$(SRCDIR)#- *_bonus.c													-#
 
@@ -83,7 +86,7 @@ $(OBJDIR)%.o: $(SRCDIR)%.c
 #
 #- Compiles the main object with the program library into the final executable.		-#
 $(NAME): $(LIBEXE)
-	@$(CC) $(CFLAGS) $(MLX42_FLAG) -o $(NAME) $(MOBJ) $(LIBEXE) $(MLX42_PLIB)
+	@$(CC) $(CFLAGS) $(MLX42_FLAG) -o $(NAME) $(MOBJ) $(LIBEXE) $(MLX42_PLIB) -lm
 	@echo "\n$(COLOUR_GREEN)$(CNAME) - Program ready.$(COLOUR_END)"
 #
 msg:
@@ -106,7 +109,7 @@ clean:
 	@echo "$(COLOUR_RED)$(MLX42_PDIR) - Object cleaning complete.\n$(COLOUR_END)"
 	@rm -rf $(OBJDIR)
 	@echo "$(COLOUR_RED)$(CNAME) - Object cleaning complete.\n$(COLOUR_END)"
-#CNAME
+#
 #- Removes the final files made with this makefile, executing clean as well.		-#
 fclean:
 	@make fclean -s -C $(MAKENM)
