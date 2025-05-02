@@ -6,7 +6,7 @@
 /*   By: sscheini <sscheini@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 16:08:21 by sscheini          #+#    #+#             */
-/*   Updated: 2025/04/29 20:04:19 by sscheini         ###   ########.fr       */
+/*   Updated: 2025/05/02 18:15:20 by sscheini         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,12 @@
 /*---------------------------------TYPE_DEF---------------------------------*/
 /*--------------------------------------------------------------------------*/
 
+typedef struct s_fpair
+{
+	float	x;
+	float	y;
+}	t_fpair;
+
 typedef struct s_axi_xyz
 {
 	int	x;
@@ -57,11 +63,11 @@ typedef struct s_map
 
 typedef struct s_program
 {
-	int				map_projection;
 	t_axi_xyz		map_center;
 	t_axi_xyz		map_zoom;
 	t_axi_xyz		rotation_axi;
 	int				rotation_degrees;
+	int				map_projection;
 	int				axi_value;
 	int				speed_value;
 	float			zoom_value;
@@ -69,9 +75,11 @@ typedef struct s_program
 
 typedef struct s_fdf
 {
+	char			**lines;
 	t_map			plane;
 	mlx_t			*window;
-	mlx_image_t		*img;
+	mlx_image_t		*map;
+	mlx_image_t		*menu;
 	t_program		settings;
 }	t_fdf;
 
@@ -82,6 +90,8 @@ typedef t_axi_xyz (*t_projection)(t_axi_xyz px);
 /*--------------------------------------------------------------------------*/
 
 void	ft_keyhook_camera(mlx_key_data_t keydata, void *param);
+
+void	ft_keyhook_start(mlx_key_data_t keydata, void *param);
 
 void	ft_scrollhook_zoom(double xdelta, double ydelta, void* param);
 
@@ -97,15 +107,19 @@ t_axi_xyz	ft_rotate_z(t_axi_xyz px, int angle_degree);
 
 t_axi_xyz	ft_isometric_projection(t_axi_xyz px);
 
-int		ft_get_colour(char *colour);
+void	ft_map_init(t_fdf *fdf, char **lines);
 
-void	ft_plane_shift(t_fdf *fdf, t_projection ft_view);
+void	ft_draw_background(mlx_image_t *img, int color);
 
-void	ft_draw_image(t_fdf *fdf);
+int		ft_get_colour(char *colour, int z);
+
+t_vector	ft_plane_shift(t_fdf *env, t_vector px, t_projection ft_shift);
+
+void	ft_draw_image(t_fdf *fdf, t_projection ft_view);
 
 void	ft_forcend(t_fdf *fdf, int errin);
 
-void	ft_default_settings(t_fdf *env, int camera_pov);
+void	ft_default_settings(t_fdf *env, int camera_view);
 
 void	ft_loading_animation(t_fdf *env);
 

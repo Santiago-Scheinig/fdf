@@ -6,7 +6,7 @@
 /*   By: sscheini <sscheini@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/31 12:39:50 by sscheini          #+#    #+#             */
-/*   Updated: 2025/04/29 20:04:24 by sscheini         ###   ########.fr       */
+/*   Updated: 2025/05/02 18:19:52 by sscheini         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
  * @param[in] img The image to draw it's background.
  * @param[in] color The background color.
  */
-static void ft_draw_background(mlx_image_t *img, int color)
+void	ft_draw_background(mlx_image_t *img, int color)
 {
 	int	x;
 	int	y;
@@ -31,92 +31,80 @@ static void ft_draw_background(mlx_image_t *img, int color)
 	}
 }
 
-//doesn't work
-/* static void	ft_draw_line(t_fdf *fdf, t_axi_xyz p1, t_axi_xyz p2)
+static int	ft_depth_color(t_vector a, t_vector b)
 {
-	t_axi_xyz	p3;
-	t_axi_xyz	m;
-	int		step;
-	int		i;
+	int	a_z;
+	int	b_z;
 
-	m.x = abs(p2.x - p1.x);
-	m.y = abs(p2.y - p1.y);
-	if (m.x >= m.y)
-		step = m.x;
+	a_z = a.axi.z;
+	b_z = b.axi.z;
+	if (a_z < 0)
+		a_z *= -1;
+	if (b_z < 0)
+		b_z *= -1;
+	if (a_z < b_z)
+		return (b.colour);
+	return (a.colour);
+}
+
+void	ft_dda_algorithm(t_fdf *fdf, t_vector a, t_vector b, int color)
+{
+	t_fpair		d;
+	t_fpair		pxl;
+	float		index;
+	float		step;
+
+	d.x = b.axi.x - a.axi.x;
+	d.y = b.axi.y - a.axi.y;
+	if (fabsf(d.x) >= fabsf(d.y))
+		step = fabsf(d.x);
 	else
-		step = m.y;
-	m.x = m.x / step;
-	m.y = m.y / step;
-	p3.x = p1.x;
-	p3.y = p1.y;
-	i = 0;
-	while (++i <= step)
+		step = fabsf(d.y);
+	d.x = d.x / step;
+	d.y = d.y / step;
+	pxl.x = a.axi.x;
+	pxl.y = a.axi.y;
+	index = -1;
+	while (++index <= step)
 	{
-		//ft_printf("%i\n", x);
-		mlx_put_pixel(fdf->img, p3.x, p3.y, 0xFF0000);
-		p3.x += m.x;
-		p3.y += m.y;
+		if ((pxl.x >= 0 && pxl.x < (int) fdf->map->width) 
+		&& (pxl.y >= 0 && pxl.y < (int) fdf->map->height))
+			mlx_put_pixel(fdf->map, pxl.x, pxl.y, color);
+		pxl.x += d.x;
+		pxl.y += d.y;
 	}
-} */
+}
 
-static void	ft_draw_vector_points(t_fdf *fdf)
+void	ft_draw_image(t_fdf *fdf, t_projection ft_view)
 {
 	t_axi_xyz	axi;
-	t_axi_xyz	pxl;
-	int			pxl_color;
-	
-	axi.y = -1;
+	t_vector	p1;
+	t_vector	p2;
+	int			color;
+
+	ft_draw_background(fdf->map, 0x000000);
+ 	axi.y = -1;
 	while (++axi.y < fdf->plane.height)
 	{
 		axi.x = -1;
 		while (++axi.x < fdf->plane.widht)
 		{
-			pxl = fdf->plane.shift[axi.y][axi.x].axi;
-			pxl.x += fdf->settings.map_center.x;
-			pxl.y += fdf->settings.map_center.y;
-			pxl_color = fdf->plane.basis[axi.y][axi.x].colour;
-			if ((pxl.x >= 0 && pxl.x < (int) fdf->img->width) 
-			&& (pxl.y >= 0 && pxl.y < (int) fdf->img->height))
-				mlx_put_pixel(fdf->img, pxl.x, pxl.y, pxl_color);
+			p1 = ft_plane_shift(fdf, fdf->plane.basis[axi.y][axi.x], ft_view);
+			if ((axi.y + 1) < fdf->plane.height)
+			{
+				p2 = ft_plane_shift(fdf, fdf->plane.basis[axi.y + 1][axi.x], ft_view);
+				color = ft_depth_color(fdf->plane.basis[axi.y + 1][axi.x], fdf->plane.basis[axi.y][axi.x]);
+				ft_dda_algorithm(fdf, p1, p2, color);
+			}
+ 			if ((axi.x + 1) < fdf->plane.widht)
+			{
+				p2 = ft_plane_shift(fdf, fdf->plane.basis[axi.y][axi.x + 1], ft_view);
+				color = ft_depth_color(fdf->plane.basis[axi.y][axi.x + 1], fdf->plane.basis[axi.y][axi.x]);
+				ft_dda_algorithm(fdf, p1, p2, color);
+			}
 		}
 	}
-}
-//
-void	ft_draw_image(t_fdf *fdf)
-{
-/* 	t_axi_xyz	p1;
-	t_axi_xyz	p2; */
-
-	ft_draw_background(fdf->img, 0x000000);
-	if (fdf->settings.map_projection == ISOMETRIC_PROJECTION)
-		ft_plane_shift(fdf, ft_isometric_projection);
-	if (fdf->settings.map_projection == PARALLEL_PROJECTION)
-		ft_plane_shift(fdf, NULL);
-	ft_draw_vector_points(fdf);
-/* 	axi.x = -1;
-	while (++axi.x < fdf->plane->height)
-	{
-		axi.y = -1;
-		while (++axi.y < fdf->plane->widht)
-		{
-			p1 = fdf->plane->basis[axi.x][axi.y].axi;
-			if ((axi.x + 1) < fdf->plane->height)
-			{
-				p2 = fdf->plane->basis[axi.x + 1][axi.y].axi;
-				//ft_printf("A; p1.x = %i - p1.y = %i | p2.x = %i - p2.y = %i\n", p1.x, p1.y, p2.x, p2.y);
-				//ft_draw_line(fdf, p1, p2);
-			}
- 			if ((axi.y + 1) < fdf->plane->widht)
-			{
-				p2 = fdf->plane->basis[axi.x][axi.y + 1].axi;
-				//ft_printf("B; p1.x = %i - p1.y = %i | p2.x = %i - p2.y = %i\n\n", p1.x, p1.y, p2.x, p2.y);
-				//ft_draw_line(fdf, p1, p2);
-			}
-			break;
-		}
-		break;
-	} */
-	mlx_image_to_window(fdf->window, fdf->img, 0, 0);
+	mlx_image_to_window(fdf->window, fdf->map, 0, 0);
 	mlx_key_hook(fdf->window, &ft_keyhook_camera, fdf);
 	mlx_scroll_hook(fdf->window, &ft_scrollhook_zoom, fdf);
 	mlx_loop(fdf->window);

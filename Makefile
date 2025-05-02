@@ -2,10 +2,11 @@
 
 MAIN		=	$(SRCDIR)fdf.c		\
 
-SRC			=	$(SRCDIR)hooks.c	\
+SRC			=	$(SRCDIR)camera.c	\
 				$(SRCDIR)draw.c		\
+				$(SRCDIR)hooks.c	\
+				$(SRCDIR)start.c	\
 				$(SRCDIR)utils.c	\
-				$(SRCDIR)camera.c	\
 
 BSRC		=	$(SRCDIR)#- *_bonus.c													-#
 

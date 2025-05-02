@@ -6,24 +6,12 @@
 /*   By: sscheini <sscheini@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 17:34:39 by sscheini          #+#    #+#             */
-/*   Updated: 2025/04/29 20:05:06 by sscheini         ###   ########.fr       */
+/*   Updated: 2025/05/02 18:17:43 by sscheini         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
 
-void	ft_scrollhook_zoom(double xdelta, double ydelta, void* param)
-{
-	t_fdf	*env;
-
-	env = (t_fdf *) param;
-	(void) xdelta;
-	if (ydelta > 0 && env->settings.zoom_value < 10)
-		env->settings.zoom_value += 0.1;
-	if (ydelta < 0 && env->settings.zoom_value > 0.5)
-		env->settings.zoom_value -= 0.1;
-	ft_draw_image(env);
-}
 
 static void	ft_rotate(t_fdf *env, int direction, int degrees)
 {
@@ -47,7 +35,7 @@ static void	ft_rotate(t_fdf *env, int direction, int degrees)
 	}
 }
 
-static void	ft_keyhook_camera_rotation(mlx_key_data_t keydata, t_fdf *env)
+static void	ft_camera_rotation(mlx_key_data_t keydata, t_fdf *env)
 {
 	if ((keydata.key == MLX_KEY_1 || keydata.key == MLX_KEY_KP_1)
 		&& keydata.action == MLX_PRESS)
@@ -74,6 +62,22 @@ static void	ft_keyhook_camera_rotation(mlx_key_data_t keydata, t_fdf *env)
 		ft_default_settings(env, PARALLEL_PROJECTION);
 }
 
+void	ft_scrollhook_zoom(double xdelta, double ydelta, void* param)
+{
+	t_fdf	*env;
+
+	env = (t_fdf *) param;
+	(void) xdelta;
+	if (ydelta > 0 && env->settings.zoom_value < 10)
+		env->settings.zoom_value += 0.1;
+	if (ydelta < 0 && env->settings.zoom_value > 0.5)
+		env->settings.zoom_value -= 0.1;
+	if (env->settings.map_projection == ISOMETRIC_PROJECTION)
+		ft_draw_image(env, ft_isometric_projection);
+	if (env->settings.map_projection == PARALLEL_PROJECTION)
+		ft_draw_image(env, NULL);
+}
+
 void	ft_keyhook_camera(mlx_key_data_t keydata, void *param)
 {
 	t_fdf	*env;
@@ -83,17 +87,37 @@ void	ft_keyhook_camera(mlx_key_data_t keydata, void *param)
 		&& env->settings.map_center.x > 0)
 		env->settings.map_center.x -= env->settings.speed_value;
 	else if (keydata.key == MLX_KEY_RIGHT && keydata.action == MLX_REPEAT
-		&& env->settings.map_center.x < (int) env->img->width)
+		&& env->settings.map_center.x < (int) env->map->width)
 		env->settings.map_center.x += env->settings.speed_value;
 	else if (keydata.key == MLX_KEY_UP && keydata.action == MLX_REPEAT
 		&& env->settings.map_center.y > 0)
 		env->settings.map_center.y -= env->settings.speed_value;
 	else if (keydata.key == MLX_KEY_DOWN && keydata.action == MLX_REPEAT
-		&& env->settings.map_center.y < (int) env->img->height)
+		&& env->settings.map_center.y < (int) env->map->height)
 		env->settings.map_center.y += env->settings.speed_value;
 	else if (keydata.key == MLX_KEY_ESCAPE && keydata.action == MLX_PRESS)
 		ft_forcend(env, MLX_SUCCESS);
 	else
-		ft_keyhook_camera_rotation(keydata, env);
-	ft_draw_image(env);
+		ft_camera_rotation(keydata, env);
+	if (env->settings.map_projection == ISOMETRIC_PROJECTION)
+		ft_draw_image(env, ft_isometric_projection);
+	if (env->settings.map_projection == PARALLEL_PROJECTION)
+		ft_draw_image(env, NULL);
+}
+
+void	ft_keyhook_start(mlx_key_data_t keydata, void *param)
+{
+	t_fdf *env;
+
+	env = (t_fdf *) param;
+	if ((keydata.key == MLX_KEY_ENTER || keydata.key == MLX_KEY_KP_ENTER)
+	&& keydata.action == MLX_PRESS)
+	{
+		//ft_loading_screen()
+		ft_map_init(env, env->lines);
+		ft_default_settings(env, ISOMETRIC_PROJECTION);
+		ft_draw_image(env, &ft_isometric_projection);
+	}
+	if (keydata.key == MLX_KEY_ESCAPE && keydata.action == MLX_PRESS)
+		ft_forcend(env, MLX_SUCCESS);
 }
