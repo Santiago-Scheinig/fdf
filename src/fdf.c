@@ -6,35 +6,31 @@
 /*   By: sscheini <sscheini@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 16:08:24 by sscheini          #+#    #+#             */
-/*   Updated: 2025/05/02 18:21:19 by sscheini         ###   ########.fr       */
+/*   Updated: 2025/05/08 18:30:14 by sscheini         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
+#include "index.h"
 
 /**
  * Fdf failsafe, in case of error, frees all memory that could remain
  * allocated in the main structure.
- * @param[in] fdf The main setting fdf structure.
+ * @param[in] env The main environment fdf structure.
  * @param[in] errin The MLX index number of the error in question.
  */
-void	ft_forcend(t_fdf *fdf, int errin)
+void	ft_forcend(t_fdf *env, int errin)
 {
-	int		i;
-
-	if ((*fdf).window)
-		mlx_terminate(fdf->window);
-	if ((*fdf).map)
-		mlx_delete_image(fdf->window, fdf->map);
-	if ((*fdf).menu)
-		mlx_delete_image(fdf->window, fdf->menu);
-	if (fdf->plane.basis)
-	{
-		i = -1;
-		while (fdf->plane.basis[++i])
-			free(fdf->plane.basis[i]);
-		free(fdf->plane.basis);
-	}
+	if ((*env).plane.span)
+		ft_lstclear(&env->plane.span, free);
+	if ((*env).menu)
+		mlx_delete_image(env->window, env->menu);
+	if ((*env).map)
+		mlx_delete_image(env->window, env->map);
+	if ((*env).bg)
+		mlx_delete_image(env->window, env->bg);
+	if ((*env).window)
+		mlx_terminate(env->window);
 	if (errin)
 	{
 		ft_printfd(2, "Error: %s.\n", mlx_strerror(errin));
@@ -43,30 +39,24 @@ void	ft_forcend(t_fdf *fdf, int errin)
 	exit(EXIT_SUCCESS);
 }
 
-/* 
-static void	ft_usr_init(t_fdf *env)
+/**
+ * 
+ *	FINISHED - Optimized to be a reset button only, that way math is calculated
+ * 	only when needed;
+ * 
+ */
+void	ft_default_settings(t_fdf *env, int camera_view)
 {
-	
-}
-*/
-
-static void	ft_fdf_init(t_fdf *env)
-{
-	t_fpair	img;
-
-	env->window = mlx_init(WIN_WIDHT, WIN_HEIGHT, "FDF", true);
-	if (!env->window)
-		ft_forcend(env, MLX_WINFAIL);
-	img.x = WIN_WIDHT - ((2 * WIN_WIDHT) / 10);
-	img.y = WIN_HEIGHT;
-	env->map = mlx_new_image(env->window, img.x, img.y);
-	if (!env->map)
-		ft_forcend(env, MLX_MEMFAIL);
-	ft_draw_background(env->map, 0x000000);
-	mlx_image_to_window(env->window, env->map, 0, 0);
-	//ft_usr_init(env);
-	mlx_key_hook(env->window, ft_keyhook_start, env);
-	mlx_loop(env->window);
+	env->settings.axi_value = AXI_Z;
+	env->settings.map_center.x = (env->bg->width / 2);
+	env->settings.map_center.y = (env->bg->height / 2);
+	env->settings.rotation_axi.x = 0;
+	env->settings.rotation_axi.y = 0;
+	env->settings.rotation_axi.z = 0;
+	env->settings.zoom_value = 0.5;
+	env->settings.speed_value = 5;
+	env->settings.map_projection = camera_view;
+	env->settings.rotation_degrees = 45;
 }
 
 /**
@@ -80,19 +70,21 @@ int	main(int argc, char **argv)
 
 	if (argc != 2 || !ft_strnstr(argv[1], ".fdf", ft_strlen(argv[1])))
 	{
-		ft_printfd(2, "Error: %s.\n", mlx_strerror(MLX_INVEXT));
+		ft_printfd(STDERR_FILENO, "Error: %s.\n", mlx_strerror(MLX_INVEXT));
 		exit(EXIT_FAILURE);
 	}
-	env.plane.basis = NULL;
-	env.window = NULL;
-	env.menu = NULL;
-	env.map	= NULL;
 	fd = open(argv[1], O_RDONLY);
 	if (fd < 0)
-		ft_forcend(&env, MLX_INVFILE);//test memory failure;
-	env.plane.height = ft_read_file(&env.lines, fd);//improve efficiency;
+	{
+		ft_printfd(STDERR_FILENO, "Error: %s.\n", mlx_strerror(MLX_INVFILE));
+		exit(EXIT_FAILURE);
+	}
+	ft_fdf_init(&env, fd, argv[1]);
 	close(fd);
-	if (!env.lines)
-		ft_forcend(&env, MLX_MEMFAIL);
-	ft_fdf_init(&env);
+	if (env.plane.height)
+		ft_map_init(&env);
+	mlx_key_hook(env.window, ft_keyhook_camera, &env);
+	mlx_scroll_hook(env.window, ft_scrollhook_zoom, &env);
+	mlx_loop(env.window);
+	ft_forcend(&env, MLX_SUCCESS);
 }

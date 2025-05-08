@@ -6,35 +6,45 @@
 /*   By: sscheini <sscheini@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 17:34:39 by sscheini          #+#    #+#             */
-/*   Updated: 2025/05/02 18:17:43 by sscheini         ###   ########.fr       */
+/*   Updated: 2025/05/08 15:09:21 by sscheini         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
+#include "index.h"
 
-
-static void	ft_rotate(t_fdf *env, int direction, int degrees)
+/**
+ * 
+ *  FINISHED
+ * 
+ */
+static void	ft_rotate(t_fdf *env, int direction)
 {
 	if (direction < 0)
 	{
 		if (env->settings.axi_value == AXI_X)
-		env->settings.rotation_axi.x -= degrees;
+		env->settings.rotation_axi.x -= env->settings.rotation_degrees;
 		if (env->settings.axi_value == AXI_Y)
-		env->settings.rotation_axi.y -= degrees;
+		env->settings.rotation_axi.y -= env->settings.rotation_degrees;
 		if (env->settings.axi_value == AXI_Z)
-		env->settings.rotation_axi.z -= degrees;
+		env->settings.rotation_axi.z -= env->settings.rotation_degrees;
 	}
 	if (direction > 0)
 	{
 		if (env->settings.axi_value == AXI_X)
-		env->settings.rotation_axi.x += degrees;
+		env->settings.rotation_axi.x += env->settings.rotation_degrees;
 		if (env->settings.axi_value == AXI_Y)
-		env->settings.rotation_axi.y += degrees;
+		env->settings.rotation_axi.y += env->settings.rotation_degrees;
 		if (env->settings.axi_value == AXI_Z)
-		env->settings.rotation_axi.z += degrees;
+		env->settings.rotation_axi.z += env->settings.rotation_degrees;
 	}
 }
 
+/**
+ * 
+ * WORKS - CAN I OPTIMIZE EXECUTIONS WITH MLX_LOOP_HOOK?
+ * 
+ */
 static void	ft_camera_rotation(mlx_key_data_t keydata, t_fdf *env)
 {
 	if ((keydata.key == MLX_KEY_1 || keydata.key == MLX_KEY_KP_1)
@@ -53,32 +63,44 @@ static void	ft_camera_rotation(mlx_key_data_t keydata, t_fdf *env)
 		&& env->settings.rotation_degrees >= 10)
 		env->settings.rotation_degrees -= 5;	
 	if (keydata.key == MLX_KEY_Q && keydata.action == MLX_PRESS)
-		ft_rotate(env, -1, env->settings.rotation_degrees);
+		ft_rotate(env, -1);
 	if (keydata.key == MLX_KEY_E && keydata.action == MLX_PRESS)
-		ft_rotate(env, 1, env->settings.rotation_degrees);
+		ft_rotate(env, 1);
 	if (keydata.key == MLX_KEY_I && keydata.action == MLX_PRESS)
-		ft_default_settings(env, ISOMETRIC_PROJECTION);
+		env->settings.map_projection = ISOMETRIC_PROJECTION;
 	if (keydata.key == MLX_KEY_P && keydata.action == MLX_PRESS)
-		ft_default_settings(env, PARALLEL_PROJECTION);
+		env->settings.map_projection = PARALLEL_PROJECTION;
+	if (keydata.key == MLX_KEY_R && keydata.action == MLX_PRESS)
+		ft_default_settings(env, env->settings.map_projection);
 }
 
+/**
+ * 
+ * WORKS - CAN I OPTIMIZE EXECUTIONS WITH MLX_LOOP_HOOK?
+ * 
+ */
 void	ft_scrollhook_zoom(double xdelta, double ydelta, void* param)
 {
 	t_fdf	*env;
 
 	env = (t_fdf *) param;
 	(void) xdelta;
-	if (ydelta > 0 && env->settings.zoom_value < 10)
+	if (ydelta > 0 && env->settings.zoom_value < 4)
 		env->settings.zoom_value += 0.1;
-	if (ydelta < 0 && env->settings.zoom_value > 0.5)
+	if (ydelta < 0 && env->settings.zoom_value > 0.4)
 		env->settings.zoom_value -= 0.1;
 	if (env->settings.map_projection == ISOMETRIC_PROJECTION)
-		ft_draw_image(env, ft_isometric_projection);
+		ft_draw_map(env);
 	if (env->settings.map_projection == PARALLEL_PROJECTION)
-		ft_draw_image(env, NULL);
+		ft_draw_map(env);
 }
 
-void	ft_keyhook_camera(mlx_key_data_t keydata, void *param)
+/**
+ * 
+ * WORKS - CAN I OPTIMIZE EXECUTIONS WITH MLX_LOOP_HOOK?
+ * 
+ */
+void	ft_keyhook_camera(mlx_key_data_t keydata, void *param)//ver como optimizar varios input a la vez
 {
 	t_fdf	*env;
 
@@ -100,24 +122,7 @@ void	ft_keyhook_camera(mlx_key_data_t keydata, void *param)
 	else
 		ft_camera_rotation(keydata, env);
 	if (env->settings.map_projection == ISOMETRIC_PROJECTION)
-		ft_draw_image(env, ft_isometric_projection);
+		ft_draw_map(env);
 	if (env->settings.map_projection == PARALLEL_PROJECTION)
-		ft_draw_image(env, NULL);
-}
-
-void	ft_keyhook_start(mlx_key_data_t keydata, void *param)
-{
-	t_fdf *env;
-
-	env = (t_fdf *) param;
-	if ((keydata.key == MLX_KEY_ENTER || keydata.key == MLX_KEY_KP_ENTER)
-	&& keydata.action == MLX_PRESS)
-	{
-		//ft_loading_screen()
-		ft_map_init(env, env->lines);
-		ft_default_settings(env, ISOMETRIC_PROJECTION);
-		ft_draw_image(env, &ft_isometric_projection);
-	}
-	if (keydata.key == MLX_KEY_ESCAPE && keydata.action == MLX_PRESS)
-		ft_forcend(env, MLX_SUCCESS);
+		ft_draw_map(env);
 }

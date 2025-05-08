@@ -6,11 +6,12 @@
 /*   By: sscheini <sscheini@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/31 12:39:50 by sscheini          #+#    #+#             */
-/*   Updated: 2025/05/02 18:19:52 by sscheini         ###   ########.fr       */
+/*   Updated: 2025/05/08 18:06:33 by sscheini         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
+#include "index.h"
 
 /**
  * Draws a background on the MLX_IMAGE structure using the given color.
@@ -31,81 +32,105 @@ void	ft_draw_background(mlx_image_t *img, int color)
 	}
 }
 
-static int	ft_depth_color(t_vector a, t_vector b)
+/**
+ * 
+ *	WORKS - COULD BE MERGED WITH FT_DRAW_MAP?
+ * 
+ */
+void	ft_draw_line(t_fdf *env, t_vector *line, t_vector *prev)
 {
-	int	a_z;
-	int	b_z;
+	t_vector	pxl_a;
+	t_vector	pxl_b;
+	int			i;
 
-	a_z = a.axi.z;
-	b_z = b.axi.z;
-	if (a_z < 0)
-		a_z *= -1;
-	if (b_z < 0)
-		b_z *= -1;
-	if (a_z < b_z)
-		return (b.colour);
-	return (a.colour);
+	i = -1;
+	while (++i < env->plane.widht)
+	{
+		pxl_a = ft_apply_planeshift(env, line[i]);
+		if (prev)
+		{
+			pxl_b = ft_apply_planeshift(env, prev[i]);
+			ft_dda_algorithm(env, pxl_a, pxl_b, ft_depth_color(line[i], prev[i]));
+		}
+		if (i + 1 < env->plane.widht)
+		{
+			pxl_b = ft_apply_planeshift(env, line[i + 1]);
+			ft_dda_algorithm(env, pxl_a, pxl_b, ft_depth_color(line[i], line[i + 1]));
+		}
+	}
 }
 
-void	ft_dda_algorithm(t_fdf *fdf, t_vector a, t_vector b, int color)
+/**
+ * 
+ *	WORKS - COULD BE MERGED WITH FT_DRAW_LINE?
+ * 
+ */
+void	ft_draw_map(t_fdf *env)
 {
-	t_fpair		d;
-	t_fpair		pxl;
-	float		index;
-	float		step;
+	t_list		*span;
+	t_vector	*prev;
+	
+	ft_memset(env->map->pixels, 0, env->map->height * env->map->width * BPP);
+	span = env->plane.span;
+	prev = NULL;
+	while (span)
+	{
+		ft_draw_line(env, span->content, prev);
+		prev = span->content;
+		span = span->next;
+	}
+}
+
+/**
+ * 
+ * FINISHED
+ * 
+ */
+static t_double_axi	ft_dda_difference(t_vector a, t_vector b, double *step)
+{
+	t_double_axi	d;
+	t_double_axi	d_module;
 
 	d.x = b.axi.x - a.axi.x;
 	d.y = b.axi.y - a.axi.y;
-	if (fabsf(d.x) >= fabsf(d.y))
-		step = fabsf(d.x);
+	d_module.x = fabs(d.x);
+	d_module.y = fabs(d.y);
+	if (d_module.x >= d_module.y)
+		(*step) = d_module.x;
 	else
-		step = fabsf(d.y);
-	d.x = d.x / step;
-	d.y = d.y / step;
-	pxl.x = a.axi.x;
-	pxl.y = a.axi.y;
-	index = -1;
-	while (++index <= step)
-	{
-		if ((pxl.x >= 0 && pxl.x < (int) fdf->map->width) 
-		&& (pxl.y >= 0 && pxl.y < (int) fdf->map->height))
-			mlx_put_pixel(fdf->map, pxl.x, pxl.y, color);
-		pxl.x += d.x;
-		pxl.y += d.y;
-	}
+		(*step) = d_module.y;
+	d.x = d.x / (*step);
+	d.y = d.y / (*step);
+	return (d);
 }
 
-void	ft_draw_image(t_fdf *fdf, t_projection ft_view)
+/**
+ * 
+ * FINISHED
+ * 
+ */
+void	ft_dda_algorithm(t_fdf *fdf, t_vector a, t_vector b, int color)
 {
-	t_axi_xyz	axi;
-	t_vector	p1;
-	t_vector	p2;
-	int			color;
+	t_double_axi	d;
+	t_double_axi	d_pxl;
+	t_axi_xyz		i_pxl;
+	double			index;
+	double			step;
 
-	ft_draw_background(fdf->map, 0x000000);
- 	axi.y = -1;
-	while (++axi.y < fdf->plane.height)
+	d = ft_dda_difference(a, b, &step);
+	d_pxl.x = a.axi.x;
+	d_pxl.y = a.axi.y;
+	index = -1;
+	i_pxl.x = round(d_pxl.x);
+	i_pxl.y = round(d_pxl.y);
+	while (++index <= step)
 	{
-		axi.x = -1;
-		while (++axi.x < fdf->plane.widht)
-		{
-			p1 = ft_plane_shift(fdf, fdf->plane.basis[axi.y][axi.x], ft_view);
-			if ((axi.y + 1) < fdf->plane.height)
-			{
-				p2 = ft_plane_shift(fdf, fdf->plane.basis[axi.y + 1][axi.x], ft_view);
-				color = ft_depth_color(fdf->plane.basis[axi.y + 1][axi.x], fdf->plane.basis[axi.y][axi.x]);
-				ft_dda_algorithm(fdf, p1, p2, color);
-			}
- 			if ((axi.x + 1) < fdf->plane.widht)
-			{
-				p2 = ft_plane_shift(fdf, fdf->plane.basis[axi.y][axi.x + 1], ft_view);
-				color = ft_depth_color(fdf->plane.basis[axi.y][axi.x + 1], fdf->plane.basis[axi.y][axi.x]);
-				ft_dda_algorithm(fdf, p1, p2, color);
-			}
-		}
+		i_pxl.x = round(d_pxl.x);
+		i_pxl.y = round(d_pxl.y);
+		if (!(i_pxl.x <= 0 || i_pxl.x >= (int) fdf->map->width) 
+		&& !(i_pxl.y <= 0 || i_pxl.y >= (int) fdf->map->height))
+			mlx_put_pixel(fdf->map, i_pxl.x, i_pxl.y, color);
+		d_pxl.x += d.x;
+		d_pxl.y += d.y;
 	}
-	mlx_image_to_window(fdf->window, fdf->map, 0, 0);
-	mlx_key_hook(fdf->window, &ft_keyhook_camera, fdf);
-	mlx_scroll_hook(fdf->window, &ft_scrollhook_zoom, fdf);
-	mlx_loop(fdf->window);
 }

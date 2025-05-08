@@ -6,12 +6,18 @@
 /*   By: sscheini <sscheini@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 15:26:22 by sscheini          #+#    #+#             */
-/*   Updated: 2025/04/29 20:04:06 by sscheini         ###   ########.fr       */
+/*   Updated: 2025/05/08 14:14:10 by sscheini         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
+#include "index.h"
 
+/**
+ * 
+ * FINISHED
+ * 
+ */
 t_axi_xyz	ft_rotate_x(t_axi_xyz px, double angle_degree)
 {
 	t_axi_xyz	tmp;
@@ -25,6 +31,11 @@ t_axi_xyz	ft_rotate_x(t_axi_xyz px, double angle_degree)
 	return (px);
 }
 
+/**
+ * 
+ * FINISHED
+ * 
+ */
 t_axi_xyz	ft_rotate_y(t_axi_xyz px, double angle_degree)
 {
 	t_axi_xyz	tmp;
@@ -38,6 +49,11 @@ t_axi_xyz	ft_rotate_y(t_axi_xyz px, double angle_degree)
 	return (px);
 }
 
+/**
+ * 
+ * FINISHED
+ * 
+ */
 t_axi_xyz	ft_rotate_z(t_axi_xyz px, int angle_degree)
 {
 	t_axi_xyz	tmp;
@@ -51,6 +67,11 @@ t_axi_xyz	ft_rotate_z(t_axi_xyz px, int angle_degree)
 	return (px);
 }
 
+/**
+ * 
+ * FINISHED
+ * 
+ */
 t_axi_xyz	ft_isometric_projection(t_axi_xyz px)
 {
 	t_axi_xyz	tmp;

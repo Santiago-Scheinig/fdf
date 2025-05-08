@@ -1,46 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line_utils_bonus.c                        :+:      :+:    :+:   */
+/*   get_next_line.h                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: sscheini <sscheini@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/12/05 05:12:25 by root              #+#    #+#             */
-/*   Updated: 2025/03/17 18:21:02 by sscheini         ###   ########.fr       */
+/*   Created: 2024/12/05 05:11:26 by root              #+#    #+#             */
+/*   Updated: 2025/05/06 20:27:02 by sscheini         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "get_next_line_bonus.h"
+#ifndef GET_NEXT_LINE_H
+# define GET_NEXT_LINE_H
+# ifndef BUFFER_SIZE
+#  define BUFFER_SIZE 1000
+# endif
+# include "libft.h"
 
 /* Ft_strlend returns the count of characters on 's' until a char end, not	 */
 /* including the '\0'. 														 */
-size_t	ft_strlend(char *str, char end)
-{
-	int	i;
-
-	if (!str)
-		return (0);
-	i = 0;
-	while (str[i] != 0 && str[i] != end)
-		i++;
-	if (!str[i] && str[i] != end)
-		return (0);
-	return (i);
-}
+size_t	ft_strlend(char *str, char end);
 
 /* In the specific case that a bit read is not included in the ASCII table,	*/
 /* it will print an empty space instead.									*/
-char	*ft_checkbin(char *line)
-{
-	int	c;
-	int	i;
+char	*ft_checkbin(char *line);
 
-	i = -1;
-	while (line[++i])
-	{
-		c = (int) line[i];
-		if (c < 0 || c > 255)
-			line[i] = ' ';
-	}
-	return (line);
-}
+/* Returns a char * with the next line on the file descriptor given.	*/
+char	*get_next_line(int fd);
+
+#endif

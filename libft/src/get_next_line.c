@@ -6,11 +6,11 @@
 /*   By: sscheini <sscheini@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/05 05:11:45 by root              #+#    #+#             */
-/*   Updated: 2024/12/17 14:42:13 by sscheini         ###   ########.fr       */
+/*   Updated: 2025/05/06 20:25:01 by sscheini         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "get_next_line_bonus.h"
+#include "get_next_line.h"
 
 /* Failsafe specific to get_next_line in case of error.						*/
 /* - Frees every position of text, returning NULL to indicate an error		*/

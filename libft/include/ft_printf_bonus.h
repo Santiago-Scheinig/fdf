@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   ft_printf_bonus.h                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: sscheini <sscheini@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/23 21:18:11 by sscheini          #+#    #+#             */
-/*   Updated: 2024/11/25 07:27:27 by root             ###   ########.fr       */
+/*   Updated: 2025/05/06 20:08:31 by sscheini         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef FT_PRINTF_BONUS_H
 # define FT_PRINTF_BONUS_H
-# include "ft_printf.h"
+# include "libft.h"
 
 /* Used to saved the information needed to print str with its detailed flags  */
 typedef struct s_print

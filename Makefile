@@ -12,7 +12,11 @@ BSRC		=	$(SRCDIR)#- *_bonus.c													-#
 
 SRCDIR		=	src/
 OBJDIR		=	obj/
-MAKENM		=	src/libft
+INCDIR		=	-I ./include/				\
+				-I ./libft/include/			\
+				-I ./MLX42/include/MLX42	\
+
+MAKENM		=	libft
 
 LIBFT		=	libft.a
 LIBEXE		=	fdf.a
@@ -21,7 +25,7 @@ NAME		=	fdf
 BONUS		=	#- The name of the bonus final program.									-#
 
 CC			=	cc
-CFLAGS		=	-Wall -Wextra -Werror -g
+CFLAGS		=	-Wall -Wextra -Werror $(INCDIR) -g 
 
 # --------------------------- Makefile MLX42 Compilation --------------------------- #
 
@@ -108,7 +112,6 @@ clean:
 	@make clean -s -C $(MAKENM)
 	@make -s -C $(MLX42_PDIR)/build clean
 	@echo "$(COLOUR_RED)$(MLX42_PDIR) - Object cleaning complete.\n$(COLOUR_END)"
-	@rm -rf $(OBJDIR)
 	@echo "$(COLOUR_RED)$(CNAME) - Object cleaning complete.\n$(COLOUR_END)"
 #
 #- Removes the final files made with this makefile, executing clean as well.		-#

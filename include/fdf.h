@@ -6,7 +6,7 @@
 /*   By: sscheini <sscheini@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 16:08:21 by sscheini          #+#    #+#             */
-/*   Updated: 2025/05/02 18:15:20 by sscheini         ###   ########.fr       */
+/*   Updated: 2025/05/08 18:27:02 by sscheini         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,9 +16,9 @@
 # include <string.h>
 # include <errno.h>
 # include <math.h>
-# include "libft/libft.h"
-# include "../MLX42/include/MLX42/MLX42_Int.h"
-# include "../MLX42/include/MLX42/MLX42.h"
+# include "libft.h"
+# include "MLX42_Int.h"
+# include "MLX42.h"
 
 # define WIN_WIDHT 1980
 # define WIN_HEIGHT 1080
@@ -26,18 +26,12 @@
 # define AXI_X 1
 # define AXI_Y 2
 # define AXI_Z 3
-# define PARALLEL_PROJECTION 0
-# define ISOMETRIC_PROJECTION 1
+# define PARALLEL_PROJECTION 1
+# define ISOMETRIC_PROJECTION 2
 
 /*--------------------------------------------------------------------------*/
 /*---------------------------------TYPE_DEF---------------------------------*/
 /*--------------------------------------------------------------------------*/
-
-typedef struct s_fpair
-{
-	float	x;
-	float	y;
-}	t_fpair;
 
 typedef struct s_axi_xyz
 {
@@ -54,17 +48,16 @@ typedef struct s_vector
 
 typedef struct s_map
 {
-	t_vector	**basis;
-	t_vector	**shift;//edit to erase
-	int			height;
-	int			widht;
+	t_list		*span;
 	int			depth;
+	int			widht;
+	int			height;
+	int			**z_buffer;
 }	t_map;
 
 typedef struct s_program
 {
 	t_axi_xyz		map_center;
-	t_axi_xyz		map_zoom;
 	t_axi_xyz		rotation_axi;
 	int				rotation_degrees;
 	int				map_projection;
@@ -75,28 +68,34 @@ typedef struct s_program
 
 typedef struct s_fdf
 {
-	char			**lines;
-	t_map			plane;
 	mlx_t			*window;
+	mlx_image_t		*bg;
 	mlx_image_t		*map;
 	mlx_image_t		*menu;
+	t_map			plane;
 	t_program		settings;
 }	t_fdf;
 
-typedef t_axi_xyz (*t_projection)(t_axi_xyz px);
+typedef 	t_axi_xyz (*t_projection)(t_axi_xyz px);
+
+/*--------------------------------------------------------------------------*/
+/*-----------------------------------FDF------------------------------------*/
+/*--------------------------------------------------------------------------*/
+
+void		ft_default_settings(t_fdf *env, int camera_view);
+
+void		ft_forcend(t_fdf *fdf, int errin);
 
 /*--------------------------------------------------------------------------*/
 /*----------------------------------HOOKS-----------------------------------*/
 /*--------------------------------------------------------------------------*/
 
-void	ft_keyhook_camera(mlx_key_data_t keydata, void *param);
+void		ft_keyhook_camera(mlx_key_data_t keydata, void *param);
 
-void	ft_keyhook_start(mlx_key_data_t keydata, void *param);
-
-void	ft_scrollhook_zoom(double xdelta, double ydelta, void* param);
+void		ft_scrollhook_zoom(double xdelta, double ydelta, void* param);
 
 /*--------------------------------------------------------------------------*/
-/*----------------------------------CAMERA----------------------------------*/
+/*---------------------------------CAMERA-----------------------------------*/
 /*--------------------------------------------------------------------------*/
 
 t_axi_xyz	ft_rotate_x(t_axi_xyz px, double angle_degree);
@@ -107,20 +106,38 @@ t_axi_xyz	ft_rotate_z(t_axi_xyz px, int angle_degree);
 
 t_axi_xyz	ft_isometric_projection(t_axi_xyz px);
 
-void	ft_map_init(t_fdf *fdf, char **lines);
+/*--------------------------------------------------------------------------*/
+/*----------------------------------DRAW------------------------------------*/
+/*--------------------------------------------------------------------------*/
 
-void	ft_draw_background(mlx_image_t *img, int color);
+void		ft_dda_algorithm(t_fdf *fdf, t_vector a, t_vector b, int color);
 
-int		ft_get_colour(char *colour, int z);
+void		ft_draw_background(mlx_image_t *img, int color);
 
-t_vector	ft_plane_shift(t_fdf *env, t_vector px, t_projection ft_shift);
+void		ft_draw_line(t_fdf *env, t_vector *line, t_vector *prev);
 
-void	ft_draw_image(t_fdf *fdf, t_projection ft_view);
+void		ft_draw_map(t_fdf *env);
 
-void	ft_forcend(t_fdf *fdf, int errin);
+/*--------------------------------------------------------------------------*/
+/*----------------------------------START-----------------------------------*/
+/*--------------------------------------------------------------------------*/
 
-void	ft_default_settings(t_fdf *env, int camera_view);
+void		ft_fdf_init(t_fdf *env, int fd, char *file_name);
 
-void	ft_loading_animation(t_fdf *env);
+void		ft_map_init(t_fdf *env);
+
+/*--------------------------------------------------------------------------*/
+/*----------------------------------UTILS-----------------------------------*/
+/*--------------------------------------------------------------------------*/
+
+int			ft_get_depth(t_fdf *env);
+
+int			ft_get_widht(t_fdf *env);
+
+int			ft_get_colour(char *colour, int z);
+
+int			ft_depth_color(t_vector a, t_vector b);
+
+t_vector	ft_apply_planeshift(t_fdf *env, t_vector px);
 
 #endif

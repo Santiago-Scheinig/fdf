@@ -6,7 +6,7 @@
 /*   By: sscheini <sscheini@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 17:37:54 by sscheini          #+#    #+#             */
-/*   Updated: 2025/04/29 18:59:04 by sscheini         ###   ########.fr       */
+/*   Updated: 2025/05/07 20:29:43 by sscheini         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,11 +93,6 @@ char	*get_next_line(int fd);
 /* Iterates 'f' in every character of 's'. 									*/
 void	ft_striteri(char *s, void (*f)(unsigned int, char *));
 
-/*	Reads on FD line by line until EOF and saves it in the lines argument.	*/
-/*	- Returns the amount of lines read.										*/
-/*	- If allocation error, returns -1.										*/
-int		ft_read_file(char ***lines, int fd);
-
 /* Compares 's1' and 's2' for 'n' bytes.									*/
 /* - Returns '0' if true, or a '+' or '-' number if false.(ASCII difference)*/
 int		ft_strncmp(const char *s1, const char *s2, size_t n);
@@ -135,6 +130,17 @@ int		ft_atoi_base(char *str, const char *base);
 /* Writes 'n' as a STRING into the 'fd' passed as an argument.				*/
 /* - Returns the amount of characters printed.								*/
 int		ft_putnbr_fd(int n, int fd);
+
+/*--------------------------------------------------------------------------*/
+/*----------------------------------FLOAT-----------------------------------*/
+/*--------------------------------------------------------------------------*/
+
+typedef struct s_double_axi
+{
+	double	x;
+	double	y;
+	double	z;
+}	t_double_axi;
 
 /*--------------------------------------------------------------------------*/
 /*--------------------------------CHARACTER---------------------------------*/
@@ -199,6 +205,11 @@ typedef struct s_list
 	struct s_list	*next;
 }	t_list;
 
+/*	Reads on FD line by line until EOF and saves it in the lines argument.	*/
+/*	- Returns the amount of lines read.										*/
+/*	- If allocation error, returns -1.										*/
+int		ft_read_file(t_list **lines, int fd);
+
 /* Creates a T_LIST * result of iterate 'f' on every 'lst.content'.			*/
 /* - If a node created iterating 'f' fails, it frees all the previous nodes.*/
 /* - Returns the T_LIST * resulted of iterating 'f' on every 'lst.content'.	*/
@@ -220,7 +231,7 @@ void	ft_lstclear(t_list **lst, void (*del)(void *));
 void	ft_lstdelone(t_list *lst, void (*del)(void*));
 
 /* Iterates 'f' on every 'lst-content' of every node on 'lst'. 				*/
-void	ft_lstiter(t_list *lst, void (f)(void *));
+void	ft_lstiter(t_list *lst, void (*f)(void *));
 
 /* Adds the 'new' list to the start of the T_LIST ** .						*/
 /* - The previous node at the start of the T_LIST ** is moved to 'lst.next'.*/
