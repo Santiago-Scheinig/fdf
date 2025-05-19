@@ -6,14 +6,16 @@
 /*   By: sscheini <sscheini@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/14 20:21:20 by sscheini          #+#    #+#             */
-/*   Updated: 2025/01/07 18:55:33 by sscheini         ###   ########.fr       */
+/*   Updated: 2025/05/19 17:14:03 by sscheini         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-/* Returns a CHAR * to the first ocurrance of 'c' inside 's'.				*/
-/* - Return NULL in case no ocurrance is found.								*/
+/**
+ * Returns a CHAR * to the first ocurrance of 'c' inside 's'.
+ * - Return NULL in case no ocurrance is found.
+ */
 char	*ft_strchr(const char *s, int c)
 {
 	size_t	i;

@@ -6,13 +6,15 @@
 /*   By: sscheini <sscheini@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/15 17:24:31 by sscheini          #+#    #+#             */
-/*   Updated: 2025/01/07 18:55:42 by sscheini         ###   ########.fr       */
+/*   Updated: 2025/05/19 17:14:10 by sscheini         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-/* Creates and returns a CHAR * that includes 's'.							*/
+/**
+ * Creates and returns a CHAR * that includes 's'.
+ */
 char	*ft_strdup(const char *s)
 {
 	char	*str;

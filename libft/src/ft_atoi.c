@@ -6,7 +6,7 @@
 /*   By: sscheini <sscheini@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 18:42:32 by sscheini          #+#    #+#             */
-/*   Updated: 2025/04/29 19:27:13 by sscheini         ###   ########.fr       */
+/*   Updated: 2025/05/19 17:00:37 by sscheini         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,9 @@ static	int	ft_issign(int c)
 	return (0);
 }
 
-/* Returns an INT with the first number found on a CHAR *.					*/
+/**
+ * Returns an INT with the first number found on a CHAR *.
+ */
 int	ft_atoi(const char *nptr)
 {
 	int	i;

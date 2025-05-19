@@ -6,7 +6,7 @@
 /*   By: sscheini <sscheini@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/19 17:43:41 by sscheini          #+#    #+#             */
-/*   Updated: 2025/04/29 19:13:50 by sscheini         ###   ########.fr       */
+/*   Updated: 2025/05/19 17:16:06 by sscheini         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,9 +23,11 @@ static int	ft_istrim(char c, char const *set)
 	return (0);
 }
 
-/* Returns a CHAR * resultant of the trimming of 'set' in 's1'.				*/
-/* - Cuts every match of 'set' from the start of 's1' until a non match.	*/
-/* - Cuts every match of 'set' from the end of 's1' until a non match.		*/
+/**
+ * Returns a CHAR * resultant of the trimming of 'set' in 's1'.
+ * - Cuts every match of 'set' from the start of 's1' until a non match.
+ * - Cuts every match of 'set' from the end of 's1' until a non match.
+ */
 char	*ft_strtrim(char const *s1, char const *set)
 {
 	char	*tmp;

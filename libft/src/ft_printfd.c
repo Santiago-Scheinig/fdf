@@ -6,17 +6,19 @@
 /*   By: sscheini <sscheini@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/09 20:55:44 by sscheini          #+#    #+#             */
-/*   Updated: 2025/01/09 20:57:36 by sscheini         ###   ########.fr       */
+/*   Updated: 2025/05/19 17:11:54 by sscheini         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf_bonus.h"
 
-/* Failsafe specific to ft_printf in case of error.							*/
-/* - Ends the va_list args and frees text and it's content, returning -1 to	*/
-/*   indicate an error ocurred.												*/
-/* - Notice that if va_list args is NULL, it still frees text and it's 		*/
-/*	 content, returning 0 to indicate the free was successfull.				*/
+/**
+ * Failsafe specific to ft_printfd in case of error.d
+ * - Ends the va_list args and frees text and it's content, returning -1 to
+ *   indicate an error ocurred.
+ * - Notice that if va_list args is NULL, it still frees text and it's
+ *	 content, returning 0 to indicate the free was successfull.
+ */
 static	int	ft_forcend(va_list args, t_print text)
 {
 	int	ans;
@@ -33,8 +35,10 @@ static	int	ft_forcend(va_list args, t_print text)
 	return (ans);
 }
 
-/* Creates a new CHAR * with the next arg value as text ready to print.		*/
-/* - Using spf, the function assigns to the CHAR * it's expected format.	*/
+/**
+ * Creates a new CHAR * with the next arg value as text ready to print.
+ * - Using spf, the function assigns to the CHAR * it's expected format.
+ */
 static	char	*ft_getarg(char spf, va_list args)
 {
 	void	*str;
@@ -64,16 +68,18 @@ static	char	*ft_getarg(char spf, va_list args)
 	return ((char *) str);
 }
 
-/* Creates and returns a new CHAR * that includes a modified str with the	*/
-/* expected parameters indicated on flags.									*/
-/* - Verifies specific NULL print formats for specifier 's'.				*/
-/* - If the specifier is 's' - 'c' - '%', returns ft_txtwth. Notice that if	*/
-/*   specifier is 's' and presicion is true, the str_len of 's' is changed 	*/
-/*   to flags[6].															*/
-/* - If the specifier is 'x' - 'X' - 'p', verifies specific NULL print		*/
-/*   formats, returning ft_txtwht with str_len = 0. Otherwise, it returns	*/
-/*   ft_hexwth.																*/
-/* - If the specifier is 'i' - 'd' - 'u', returns ft_dgtwth.				*/
+/**
+ * Creates and returns a new CHAR * that includes a modified str with the
+ * expected parameters indicated on flags.
+ * - Verifies specific NULL print formats for specifier 's'.
+ * - If the specifier is 's' - 'c' - '%', returns ft_txtwth. Notice that if
+ *   specifier is 's' and presicion is true, the str_len of 's' is changed
+ *   to flags[6].
+ * - If the specifier is 'x' - 'X' - 'p', verifies specific NULL print
+ *   formats, returning ft_txtwht with str_len = 0. Otherwise, it returns
+ *   ft_hexwth.
+ * - If the specifier is 'i' - 'd' - 'u', returns ft_dgtwth.
+ */
 static	char	*ft_flagstr(char *str, int *flags, int str_len)
 {
 	if (flags[7] == 's' && flags[6] <= 5 && !ft_strncmp(str, "(null)", 6))
@@ -98,10 +104,12 @@ static	char	*ft_flagstr(char *str, int *flags, int str_len)
 	return (str);
 }
 
-/* Writes in stdout and adds the amount of printed characters to count.		*/
-/* - Verifies specific NULL print formats for specifier 'c'.				*/
-/* - If the verification turns false, calls ft_flagstr to obtain an str		*/
-/*   that meets the expected paramaters indicated on flags.					*/
+/**
+ * Writes in stdout and adds the amount of printed characters to count.
+ * - Verifies specific NULL print formats for specifier 'c'.
+ * - If the verification turns false, calls ft_flagstr to obtain an str
+ *   that meets the expected paramaters indicated on flags.
+ */
 static	int	ft_printv(t_print text, int *count, int fd)
 {
 	int		zero;
@@ -131,7 +139,9 @@ static	int	ft_printv(t_print text, int *count, int fd)
 	return (ft_forcend(NULL, text));
 }
 
-/* Writes the formatted output to the fd specified as argument.				*/
+/**
+ * Writes the formatted output to the fd specified as argument.
+ */
 int	ft_printfd(int fd, char const *s, ...)
 {
 	va_list	args;

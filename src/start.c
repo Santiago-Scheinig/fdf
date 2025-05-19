@@ -6,7 +6,7 @@
 /*   By: sscheini <sscheini@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/02 17:01:09 by sscheini          #+#    #+#             */
-/*   Updated: 2025/05/08 18:33:28 by sscheini         ###   ########.fr       */
+/*   Updated: 2025/05/19 17:35:11 by sscheini         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,12 +30,12 @@ static t_vector	*ft_vector_read(t_fdf *env, char **vectors)
 
 	column = malloc(env->plane.widht * sizeof(t_vector));
 	if (!column)
-		return (NULL);	
+		return (NULL);
 	x = -1;
 	while (++x < env->plane.widht)
 	{
 		if (!vectors[x])
-			break;
+			break ;
 		column[x].axi.x = x - (env->plane.widht / 2);
 		column[x].axi.x *= (env->map->height / env->plane.widht);
 		column[x].axi.y = y - (env->plane.height / 2);
@@ -113,7 +113,7 @@ static void	ft_usr_init(t_fdf *env, char *file_name)
  */
 void	ft_fdf_init(t_fdf *env, int fd, char *file_name)
 {
-	int x;
+	int	x;
 	int	y;
 
 	env->bg = NULL;

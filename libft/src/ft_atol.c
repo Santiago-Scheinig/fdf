@@ -6,7 +6,7 @@
 /*   By: sscheini <sscheini@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/19 14:51:52 by sscheini          #+#    #+#             */
-/*   Updated: 2025/01/07 19:10:51 by sscheini         ###   ########.fr       */
+/*   Updated: 2025/05/19 17:00:49 by sscheini         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,9 @@ static	long	ft_issign(long c)
 	return (0);
 }
 
-/* Returns an long with the first number found on a CHAR *.					*/
+/**
+ * Returns an long with the first number found on a CHAR *.
+ */
 long	ft_atol(const char *nptr)
 {
 	long	i;

@@ -1,19 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line_utils_bonus.c                        :+:      :+:    :+:   */
+/*   get_next_line_utils.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: sscheini <sscheini@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/05 05:12:25 by root              #+#    #+#             */
-/*   Updated: 2025/05/06 20:25:06 by sscheini         ###   ########.fr       */
+/*   Updated: 2025/05/19 17:16:58 by sscheini         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-/* Ft_strlend returns the count of characters on 's' until a char end, not	 */
-/* including the '\0'. 														 */
+/**
+ * Ft_strlend returns the count of characters on 's' until a char end, not
+ * including the '\0'.
+ */
 size_t	ft_strlend(char *str, char end)
 {
 	int	i;
@@ -28,8 +30,10 @@ size_t	ft_strlend(char *str, char end)
 	return (i);
 }
 
-/* In the specific case that a bit read is not included in the ASCII table,	*/
-/* it will print an empty space instead.									*/
+/**
+ * In the specific case that a bit read is not included in the ASCII table,
+ * it will print an empty space instead.
+ */
 char	*ft_checkbin(char *line)
 {
 	int	c;

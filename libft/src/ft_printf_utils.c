@@ -3,17 +3,19 @@
 /*                                                        :::      ::::::::   */
 /*   ft_printf_utils.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: sscheini <sscheini@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/23 19:01:21 by sscheini          #+#    #+#             */
-/*   Updated: 2024/11/25 08:56:32 by root             ###   ########.fr       */
+/*   Updated: 2025/05/19 17:10:36 by sscheini         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
-/* Creates and returns a CONST CHAR * that includes an hexadecimal base		*/
-/* wich variates on dependence to the specifier send as an argument.		*/
+/**
+ * Creates and returns a CONST CHAR * that includes an hexadecimal base
+ * wich variates on dependence to the specifier send as an argument.
+ */
 const char	*ft_sethexa(int specifier)
 {
 	const char	*hex_base;
@@ -26,8 +28,10 @@ const char	*ft_sethexa(int specifier)
 	return (hex_base);
 }
 
-/* Allocates a new CHAR * adding "0x" to the ptr send as argument.			*/
-/* - Notice that it frees the previous ptr before returning the new one.	*/
+/**
+ * Allocates a new CHAR * adding "0x" to the ptr send as argument.
+ * - Notice that it frees the previous ptr before returning the new one.
+ */
 char	*ft_ptrdup(void *ptr, int spf)
 {
 	char	*aux;
@@ -40,7 +44,9 @@ char	*ft_ptrdup(void *ptr, int spf)
 	return (aux);
 }
 
-/* Performs the same way as ft_strdup, but for a single CHAR argument.		*/
+/**
+ * Performs the same way as ft_strdup, but for a single CHAR argument.
+ */
 char	*ft_chrdup(char c)
 {
 	char	*str;

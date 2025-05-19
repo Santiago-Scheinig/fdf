@@ -6,14 +6,16 @@
 /*   By: sscheini <sscheini@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/15 13:39:12 by sscheini          #+#    #+#             */
-/*   Updated: 2025/01/07 18:51:38 by sscheini         ###   ########.fr       */
+/*   Updated: 2025/05/19 17:05:43 by sscheini         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-/* Compares 's1' and 's2' for 'n' bytes.							 		*/
-/* - Returns '0' if true, or a '+' or '-' number if false.(ASCII difference)*/
+/**
+ * Compares 's1' and 's2' for 'n' bytes.
+ * - Returns '0' if true, or a '+' or '-' number if false.(ASCII difference)
+ */
 int	ft_memcmp(const void *s1, const void *s2, size_t n)
 {
 	unsigned char	*s1_c;

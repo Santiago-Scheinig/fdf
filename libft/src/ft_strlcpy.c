@@ -6,15 +6,17 @@
 /*   By: sscheini <sscheini@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 19:26:08 by sscheini          #+#    #+#             */
-/*   Updated: 2025/01/07 18:56:34 by sscheini         ###   ########.fr       */
+/*   Updated: 2025/05/19 17:14:47 by sscheini         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-/* Copies 'size' bytes form 'src' into 'dst'. 		  						*/
-/* - If 'size' >= src_len + 1, it copies all of 'src' into 'dst'. 			*/
-/* - Else, it truncates the copy after size - 1 bytes.			  			*/
+/**
+ * Copies 'size' bytes form 'src' into 'dst'.
+ * - If 'size' >= src_len + 1, it copies all of 'src' into 'dst'.
+ * - Else, it truncates the copy after size - 1 bytes.
+ */
 size_t	ft_strlcpy(char *dst, const char *src, size_t size)
 {
 	size_t	src_len;

@@ -6,15 +6,17 @@
 /*   By: sscheini <sscheini@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/02 20:51:56 by sscheini          #+#    #+#             */
-/*   Updated: 2025/05/07 15:46:24 by sscheini         ###   ########.fr       */
+/*   Updated: 2025/05/19 17:04:48 by sscheini         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-/* Creates a T_LIST * result of iterate 'f' on every 'lst.content'.			*/
-/* - If a node created iterating 'f' fails, it frees all the previous nodes.*/
-/* - Returns the T_LIST * resulted of iterating 'f' on every 'lst.content'.	*/
+/**
+ * Creates a T_LIST * result of iterate 'f' on every 'lst.content'.
+ * - If a node created iterating 'f' fails, it frees all the previous nodes.
+ * - Returns the T_LIST * resulted of iterating 'f' on every 'lst.content'.
+ */
 t_list	*ft_lstmap(t_list *lst, void *(*f)(void *), void (*del)(void *))
 {
 	t_list	*tmp_lst;

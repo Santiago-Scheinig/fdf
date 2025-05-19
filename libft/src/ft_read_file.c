@@ -6,16 +6,18 @@
 /*   By: sscheini <sscheini@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 18:32:09 by sscheini          #+#    #+#             */
-/*   Updated: 2025/05/08 18:04:30 by sscheini         ###   ########.fr       */
+/*   Updated: 2025/05/19 17:30:32 by sscheini         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-/*	Reads on FD line by line until EOF and saves it in the lines argument.	*/
-/*	- Returns the amount of lines read. A line with just '\n' doesn't sum 	*/
-/*	to the line read count.													*/
-/*	- If allocation error, returns -1.										*/
+/**
+ *	Reads on FD line by line until EOF and saves it in the lines argument.
+ *	- Returns the amount of lines read. A line with just '\n' doesn't sum
+ *	to the line read count.
+ *	- If allocation error, returns -1.
+ */
 int	ft_read_file(t_list **lines, int fd)
 {
 	t_list	*new;

@@ -6,14 +6,16 @@
 /*   By: sscheini <sscheini@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/15 12:55:26 by sscheini          #+#    #+#             */
-/*   Updated: 2025/01/07 18:51:28 by sscheini         ###   ########.fr       */
+/*   Updated: 2025/05/19 17:05:30 by sscheini         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-/* Searches for 'c' inside 's' for 'n' bytes.								*/
-/* - Returns a VOID * to the first match or NULL, in case there's no match.	*/
+/**
+ * Searches for 'c' inside 's' for 'n' bytes.
+ * - Returns a VOID * to the first match or NULL, in case there's no match.
+ */
 void	*ft_memchr(const void *s, int c, size_t n)
 {
 	unsigned char	*s_c;

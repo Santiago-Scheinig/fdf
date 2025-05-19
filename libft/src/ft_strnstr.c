@@ -6,16 +6,18 @@
 /*   By: sscheini <sscheini@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/15 13:48:27 by sscheini          #+#    #+#             */
-/*   Updated: 2025/04/29 19:31:43 by sscheini         ###   ########.fr       */
+/*   Updated: 2025/05/19 17:15:45 by sscheini         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-/* Returns a CHAR * to the first match of all 'little' in 'big'.			*/
-/* - The match must exist in 'len' bytes of 'big'.							*/
-/* - Returns 'big' if 'little' is empty.									*/
-/* - Returns NULL if no match is found.										*/
+/**
+ * Returns a CHAR * to the first match of all 'little' in 'big'.
+ * - The match must exist in 'len' bytes of 'big'.
+ * - Returns 'big' if 'little' is empty.
+ * - Returns NULL if no match is found.
+ */
 char	*ft_strnstr(const char *big, const char *little, size_t len)
 {
 	size_t	i;

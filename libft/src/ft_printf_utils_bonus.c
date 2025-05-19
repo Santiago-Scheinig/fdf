@@ -3,20 +3,22 @@
 /*                                                        :::      ::::::::   */
 /*   ft_printf_utils_bonus.c                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: sscheini <sscheini@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/23 20:18:53 by sscheini          #+#    #+#             */
-/*   Updated: 2024/11/25 09:52:04 by root             ###   ########.fr       */
+/*   Updated: 2025/05/19 17:10:05 by sscheini         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf_bonus.h"
 
-/* Verifies the flags[1 - 2] and returns a new CHAR * with the expected sign  */
-/* at the beggining.														  */
-/* - If a sign was added to str or if already had one, it sets sign to 1.	  */
-/* - Notice that when the new CHAR * is allocated, it frees the previous str  */
-/*	 and updates it's str_len.												  */
+/**
+ * Verifies the flags[1 - 2] and returns a new CHAR * with the expected sign
+ * at the beggining.
+ * - If a sign was added to str or if already had one, it sets sign to 1.
+ * - Notice that when the new CHAR * is allocated, it frees the previous str
+ *	 and updates it's str_len.
+ */
 static	char	*ft_setsign(int *flags, char *str, int *sign, int *str_len)
 {
 	char	*aux;
@@ -45,10 +47,12 @@ static	char	*ft_setsign(int *flags, char *str, int *sign, int *str_len)
 	return (aux);
 }
 
-/* Adds numeric presicion to the str send as argument.						  */
-/* - Returns a new CHAR * with the expected precision parameters, detailed on */
-/*   flags[6], ignoring sign characters from the beggining of str.			  */
-/* - Notice that when the new CHAR * is allocated, it frees the previous str. */
+/**
+ * Adds numeric presicion to the str send as argument.
+ * - Returns a new CHAR * with the expected precision parameters, detailed on
+ *   flags[6], ignoring sign characters from the beggining of str.
+ * - Notice that when the new CHAR * is allocated, it frees the previous str.
+ */
 static	char	*ft_getpsc(int *flags, int sign, char *str, int str_len)
 {
 	char	*pcs;
@@ -68,13 +72,15 @@ static	char	*ft_getpsc(int *flags, int sign, char *str, int str_len)
 	return (ft_txtwth(flags, pcs, pcs_len));
 }
 
-/* Verifies the flags[0 - 5] and creates a new CHAR * to meet the expected	  */
-/* parameters with the contents of str, returning it at the end.			  */
-/* - If width (flags[5]) > str_len, allocates a new CHAR * with the minimum	  */
-/*   ammount of characters to be printed, setting each of them to 'blank'.	  */
-/* - If minus (flags[0]) is true, and a new CHAR * was allocated, it pads str */
-/*   to the left of txt. Otherwise, it pads str to the right of txt.		  */
-/* - Notice that when the new CHAR * is allocated, it frees the previous str. */
+/**
+ * Verifies the flags[0 - 5] and creates a new CHAR * to meet the expected
+ * parameters with the contents of str, returning it at the end.
+ * - If width (flags[5]) > str_len, allocates a new CHAR * with the minimum
+ *   ammount of characters to be printed, setting each of them to 'blank'.
+ * - If minus (flags[0]) is true, and a new CHAR * was allocated, it pads str
+ *   to the left of txt. Otherwise, it pads str to the right of txt.
+ * - Notice that when the new CHAR * is allocated, it frees the previous str.
+ */
 char	*ft_txtwth(int *flags, char *str, int str_len)
 {
 	char	*txt;
@@ -98,18 +104,20 @@ char	*ft_txtwth(int *flags, char *str, int str_len)
 	return (txt);
 }
 
-/* Verifies the flags[3 - 4 - 6] for the hexadecimal specifiers: 'p' - 'x' -  */
-/* 'X', and returns a new CHAR * to meet the expected parameters with the 	  */
-/* contents of str.															  */
-/* - If numeral (flags[3]) is true and str isn't NULL, it allocates a new	  */
-/*   CHAR * that meets the expected parameters with the contents of str.	  */
-/* - If presicion (flags[6]) > str_len - sign, means str needs numeric		  */
-/*   presicion, returning ft_getpsc.										  */
-/* - If zero (flags[4]) is true, presicion (flags[6]) is false and width 	  */
-/*   (flags[5]) > str_len, means str needs numeric presicion, returning 	  */
-/*	 ft_getpsc.																  */
-/* - If no numeric presicion is needed or if specifier 'p', returns ft_txtwth */
-/*   without further verification.											  */
+/**
+ * Verifies the flags[3 - 4 - 6] for the hexadecimal specifiers: 'p' - 'x' -
+ * 'X', and returns a new CHAR * to meet the expected parameters with the
+ * contents of str.
+ * - If numeral (flags[3]) is true and str isn't NULL, it allocates a new
+ *   CHAR * that meets the expected parameters with the contents of str.
+ * - If presicion (flags[6]) > str_len - sign, means str needs numeric
+ *   presicion, returning ft_getpsc.
+ * - If zero (flags[4]) is true, presicion (flags[6]) is false and width
+ *   (flags[5]) > str_len, means str needs numeric presicion, returning
+ *	 ft_getpsc.
+ * - If no numeric presicion is needed or if specifier 'p', returns ft_txtwth
+ *   without further verification.
+ */
 char	*ft_hexwth(int *flags, char *str, int str_len)
 {
 	char	*hex;
@@ -138,19 +146,21 @@ char	*ft_hexwth(int *flags, char *str, int str_len)
 	return (ft_txtwth(flags, hex, str_len));
 }
 
-/* Verifies the flags[1 - 2 - 4 - 5 - 6] for the digital specifiers: 'i' - 'd'*/
-/* - 'u', and returns a new CHAR * to meet the expected parameters with the	  */
-/* contents of str.															  */
-/* - If str is NULL, it returns ft_txtwth with specific parameters depending  */
-/*   on flags[1] being true or flase.										  */
-/* - Else, str it's modified by ft_setsign which verifies flags [1 - 2].	  */
-/* - If presicion (flags[6]) > str_len - sign, means str needs numeric		  */
-/*   presicion, returning ft_getpsc.										  */
-/* - If zero (flags[4]) is true, presicion (flags[6]) is false and width 	  */
-/*   (flags[5]) > str_len, means str needs numeric presicion, returning 	  */
-/*	 ft_getpsc.																  */
-/* - If no numeric presicion is needed, returns ft_txtwth withouth further    */
-/*   verification.															  */
+/**
+ * Verifies the flags[1 - 2 - 4 - 5 - 6] for the digital specifiers: 'i' - 'd'
+ * - 'u', and returns a new CHAR * to meet the expected parameters with the
+ * contents of str.
+ * - If str is NULL, it returns ft_txtwth with specific parameters depending
+ *   on flags[1] being true or flase.
+ * - Else, str it's modified by ft_setsign which verifies flags [1 - 2].
+ * - If presicion (flags[6]) > str_len - sign, means str needs numeric
+ *   presicion, returning ft_getpsc.
+ * - If zero (flags[4]) is true, presicion (flags[6]) is false and width
+ *   (flags[5]) > str_len, means str needs numeric presicion, returning
+ *	 ft_getpsc.
+ * - If no numeric presicion is needed, returns ft_txtwth withouth further
+ *   verification.
+ */
 char	*ft_dgtwth(int *flags, char *str, int str_len)
 {
 	int		sign;

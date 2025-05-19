@@ -25,7 +25,7 @@ NAME		=	fdf
 BONUS		=	#- The name of the bonus final program.									-#
 
 CC			=	cc
-CFLAGS		=	-Wall -Wextra -Werror $(INCDIR) -g 
+CFLAGS		=	-Wall -Wextra -Werror $(INCDIR)
 
 # --------------------------- Makefile MLX42 Compilation --------------------------- #
 

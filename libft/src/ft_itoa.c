@@ -6,13 +6,15 @@
 /*   By: sscheini <sscheini@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/23 18:44:50 by sscheini          #+#    #+#             */
-/*   Updated: 2025/01/07 18:49:39 by sscheini         ###   ########.fr       */
+/*   Updated: 2025/05/19 17:03:26 by sscheini         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-/* Reverses the STRING found on a CHAR *.									*/
+/**
+ * Reverses the STRING found on a CHAR *.
+ */
 static	char	*ft_swap(char *str)
 {
 	char	swap;
@@ -34,7 +36,9 @@ static	char	*ft_swap(char *str)
 	return (str);
 }
 
-/* Allocates the exact memory needed for a CHAR *.							*/
+/**
+ * Allocates the exact memory needed for a CHAR *.
+ */
 static	char	*ft_setstr(int n, int len)
 {
 	char	*str;
@@ -55,7 +59,9 @@ static	char	*ft_setstr(int n, int len)
 	return (str);
 }
 
-/* Returns a dedicated CHAR * for the INT_MIN case.							*/
+/**
+ * Returns a dedicated CHAR * for the INT_MIN case.
+ */
 static	char	*ft_min(void)
 {
 	char	*str;
@@ -67,7 +73,9 @@ static	char	*ft_min(void)
 	return (str);
 }
 
-/* Counts the amount of digits that an INT variable has. 					*/
+/**
+ * Counts the amount of digits that an INT variable has.
+ */
 static	int	ft_nbrlen(int n)
 {
 	int	count;
@@ -84,7 +92,9 @@ static	int	ft_nbrlen(int n)
 	return (count);
 }
 
-/* Returns a CHAR * that includes the INT passed as an argument.			*/
+/**
+ * Returns a CHAR * that includes the INT passed as an argument.
+ */
 char	*ft_itoa(int n)
 {
 	char	*str;

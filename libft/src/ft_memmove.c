@@ -6,13 +6,15 @@
 /*   By: sscheini <sscheini@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/12 19:32:51 by sscheini          #+#    #+#             */
-/*   Updated: 2025/01/07 18:52:12 by sscheini         ###   ########.fr       */
+/*   Updated: 2025/05/19 17:06:03 by sscheini         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-/* Moves 'n' bytes from 'src' into 'dest', returning 'dest'.				*/
+/**
+ * Moves 'n' bytes from 'src' into 'dest', returning 'dest'.
+ */
 void	*ft_memmove(void *dest, const void *src, size_t n)
 {
 	unsigned char	*dst_tmp;

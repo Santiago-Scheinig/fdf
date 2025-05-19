@@ -6,13 +6,15 @@
 /*   By: sscheini <sscheini@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/19 19:49:41 by sscheini          #+#    #+#             */
-/*   Updated: 2025/03/27 20:55:53 by sscheini         ###   ########.fr       */
+/*   Updated: 2025/05/19 17:13:51 by sscheini         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-/* Returns the amount of words found in 's' separated with 'c'. 			*/
+/**
+ * Returns the amount of words found in 's' separated with 'c'.
+ */
 static	int	ft_wrdcount(char const *s, char c)
 {
 	char	*tmp;
@@ -31,7 +33,9 @@ static	int	ft_wrdcount(char const *s, char c)
 	return (count);
 }
 
-/* Returns the lenght of a word, using 'c' as the end character. 			*/
+/**
+ * Returns the lenght of a word, using 'c' as the end character.
+ */
 static	int	ft_wrdlen(char const *s, char c)
 {
 	int	i;
@@ -42,7 +46,9 @@ static	int	ft_wrdlen(char const *s, char c)
 	return (i);
 }
 
-/* Frees every pointer inside 'wrdstr', then it frees 'wrdstr'. 			*/
+/**
+ * Frees every pointer inside 'wrdstr', then it frees 'wrdstr'.
+ */
 static	void	ft_memfree(char **wrdstr, int index)
 {
 	int	i;
@@ -56,8 +62,10 @@ static	void	ft_memfree(char **wrdstr, int index)
 	free(wrdstr);
 }
 
-/* Returns an ARRAY of CHAR * with every word found in 's'.					*/
-/* - The words are divided using 'c'.								 		*/
+/**
+ * Returns an ARRAY of CHAR * with every word found in 's'.
+ * - The words are divided using 'c'.
+ */
 char	**ft_split(char const *s, char c)
 {
 	char	**wrdstr;

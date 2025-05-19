@@ -6,7 +6,7 @@
 /*   By: sscheini <sscheini@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 18:52:46 by sscheini          #+#    #+#             */
-/*   Updated: 2025/04/29 19:14:23 by sscheini         ###   ########.fr       */
+/*   Updated: 2025/05/19 13:09:50 by sscheini         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@
  */
 int	ft_atoi_base(char *str, const char *base)
 {
-	char*	tmp;
+	char	*tmp;
 	int		base_lenght;
 	int		ans;
 	int		i;
@@ -41,7 +41,7 @@ int	ft_atoi_base(char *str, const char *base)
 		index = -1;
 		while (base[++index])
 			if (base[index] == str[i])
-				break;
+				break ;
 		ans = (ans * base_lenght) + index;
 	}
 	return (ans);

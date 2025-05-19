@@ -6,7 +6,7 @@
 /*   By: sscheini <sscheini@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 16:08:21 by sscheini          #+#    #+#             */
-/*   Updated: 2025/05/08 18:27:02 by sscheini         ###   ########.fr       */
+/*   Updated: 2025/05/19 17:33:21 by sscheini         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,13 @@ typedef struct s_axi_xyz
 	int	y;
 	int	z;
 }	t_axi_xyz;
+
+typedef struct s_double_axi
+{
+	double	x;
+	double	y;
+	double	z;
+}	t_double_axi;
 
 typedef struct s_vector
 {
@@ -76,7 +83,7 @@ typedef struct s_fdf
 	t_program		settings;
 }	t_fdf;
 
-typedef 	t_axi_xyz (*t_projection)(t_axi_xyz px);
+typedef t_axi_xyz	(*t_projection)(t_axi_xyz px);
 
 /*--------------------------------------------------------------------------*/
 /*-----------------------------------FDF------------------------------------*/
@@ -92,7 +99,7 @@ void		ft_forcend(t_fdf *fdf, int errin);
 
 void		ft_keyhook_camera(mlx_key_data_t keydata, void *param);
 
-void		ft_scrollhook_zoom(double xdelta, double ydelta, void* param);
+void		ft_scrollhook_zoom(double xdelta, double ydelta, void *param);
 
 /*--------------------------------------------------------------------------*/
 /*---------------------------------CAMERA-----------------------------------*/
@@ -110,7 +117,7 @@ t_axi_xyz	ft_isometric_projection(t_axi_xyz px);
 /*----------------------------------DRAW------------------------------------*/
 /*--------------------------------------------------------------------------*/
 
-void		ft_dda_algorithm(t_fdf *fdf, t_vector a, t_vector b, int color);
+void		ft_dda(t_fdf *fdf, t_vector a, t_vector b, int color);
 
 void		ft_draw_background(mlx_image_t *img, int color);
 

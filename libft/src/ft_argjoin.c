@@ -6,14 +6,16 @@
 /*   By: sscheini <sscheini@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/07 18:13:33 by sscheini          #+#    #+#             */
-/*   Updated: 2025/01/07 19:05:37 by sscheini         ###   ########.fr       */
+/*   Updated: 2025/05/19 17:00:22 by sscheini         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-/* Creates and returns a CHAR * that includes every content included in the */
-/* arguments **ARGV, but as a single string instead.						*/
+/**
+ * Creates and returns a CHAR * that includes every content included in the
+ * arguments **ARGV, but as a single string instead.
+ */
 char	*ft_argjoin(char **argv)
 {
 	char	*str;

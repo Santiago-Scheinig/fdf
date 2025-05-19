@@ -6,7 +6,7 @@
 /*   By: sscheini <sscheini@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 17:34:39 by sscheini          #+#    #+#             */
-/*   Updated: 2025/05/08 15:09:21 by sscheini         ###   ########.fr       */
+/*   Updated: 2025/05/19 13:11:38 by sscheini         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,20 +23,20 @@ static void	ft_rotate(t_fdf *env, int direction)
 	if (direction < 0)
 	{
 		if (env->settings.axi_value == AXI_X)
-		env->settings.rotation_axi.x -= env->settings.rotation_degrees;
+			env->settings.rotation_axi.x -= env->settings.rotation_degrees;
 		if (env->settings.axi_value == AXI_Y)
-		env->settings.rotation_axi.y -= env->settings.rotation_degrees;
+			env->settings.rotation_axi.y -= env->settings.rotation_degrees;
 		if (env->settings.axi_value == AXI_Z)
-		env->settings.rotation_axi.z -= env->settings.rotation_degrees;
+			env->settings.rotation_axi.z -= env->settings.rotation_degrees;
 	}
 	if (direction > 0)
 	{
 		if (env->settings.axi_value == AXI_X)
-		env->settings.rotation_axi.x += env->settings.rotation_degrees;
+			env->settings.rotation_axi.x += env->settings.rotation_degrees;
 		if (env->settings.axi_value == AXI_Y)
-		env->settings.rotation_axi.y += env->settings.rotation_degrees;
+			env->settings.rotation_axi.y += env->settings.rotation_degrees;
 		if (env->settings.axi_value == AXI_Z)
-		env->settings.rotation_axi.z += env->settings.rotation_degrees;
+			env->settings.rotation_axi.z += env->settings.rotation_degrees;
 	}
 }
 
@@ -61,7 +61,7 @@ static void	ft_camera_rotation(mlx_key_data_t keydata, t_fdf *env)
 		env->settings.rotation_degrees += 5;
 	if (keydata.key == MLX_KEY_KP_SUBTRACT && keydata.action == MLX_PRESS
 		&& env->settings.rotation_degrees >= 10)
-		env->settings.rotation_degrees -= 5;	
+		env->settings.rotation_degrees -= 5;
 	if (keydata.key == MLX_KEY_Q && keydata.action == MLX_PRESS)
 		ft_rotate(env, -1);
 	if (keydata.key == MLX_KEY_E && keydata.action == MLX_PRESS)
@@ -79,7 +79,7 @@ static void	ft_camera_rotation(mlx_key_data_t keydata, t_fdf *env)
  * WORKS - CAN I OPTIMIZE EXECUTIONS WITH MLX_LOOP_HOOK?
  * 
  */
-void	ft_scrollhook_zoom(double xdelta, double ydelta, void* param)
+void	ft_scrollhook_zoom(double xdelta, double ydelta, void *param)
 {
 	t_fdf	*env;
 
@@ -99,8 +99,9 @@ void	ft_scrollhook_zoom(double xdelta, double ydelta, void* param)
  * 
  * WORKS - CAN I OPTIMIZE EXECUTIONS WITH MLX_LOOP_HOOK?
  * 
+ * //ver como optimizar varios input a la vez
  */
-void	ft_keyhook_camera(mlx_key_data_t keydata, void *param)//ver como optimizar varios input a la vez
+void	ft_keyhook_camera(mlx_key_data_t keydata, void *param)
 {
 	t_fdf	*env;
 

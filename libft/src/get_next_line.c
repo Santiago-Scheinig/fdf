@@ -1,20 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line_bonus.c                              :+:      :+:    :+:   */
+/*   get_next_line.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: sscheini <sscheini@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/05 05:11:45 by root              #+#    #+#             */
-/*   Updated: 2025/05/06 20:25:01 by sscheini         ###   ########.fr       */
+/*   Updated: 2025/05/19 17:17:45 by sscheini         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-/* Failsafe specific to get_next_line in case of error.						*/
-/* - Frees every position of text, returning NULL to indicate an error		*/
-/*	 ocurred.																*/
+/**
+ * Failsafe specific to get_next_line in case of error.
+ * - Frees every position of text, returning NULL to indicate an error
+ *	 ocurred.
+ */
 static	void	*ft_forcend(char **txt)
 {
 	int		i;
@@ -28,9 +30,11 @@ static	void	*ft_forcend(char **txt)
 	return (NULL);
 }
 
-/* Allocates a new char * with BUFFER SIZE ready to read into.				*/
-/* - Notice that if the previous char * had any information, it will create	*/
-/*   a new char * with str_len + BUFFER SIZE, and copy the information.		*/
+/**
+ * Allocates a new char * with BUFFER SIZE ready to read into.
+ * - Notice that if the previous char * had any information, it will create
+ *   a new char * with str_len + BUFFER SIZE, and copy the information.
+ */
 static	char	*ft_new_text(char *str)
 {
 	char	*aux;
@@ -56,7 +60,9 @@ static	char	*ft_new_text(char *str)
 	return (str);
 }
 
-/* Reads the file descriptor into txt until it reads a full a line or EOF.	*/
+/**
+ * Reads the file descriptor into txt until it reads a full a line or EOF.
+ */
 static	char	*ft_read_text(char *txt, int fd)
 {
 	int	line;
@@ -83,8 +89,10 @@ static	char	*ft_read_text(char *txt, int fd)
 	return (txt);
 }
 
-/* Returns a full line found on txt.										*/
-/* - Notice that the function will cut the line from the static variable.	*/
+/**
+ * Returns a full line found on txt.
+ * - Notice that the function will cut the line from the static variable.
+ */
 static	char	*ft_line_text(char **txt)
 {
 	char	*line;
@@ -113,7 +121,9 @@ static	char	*ft_line_text(char **txt)
 	return (line);
 }
 
-/* Returns a char * with the next line on the file descriptor given.	*/
+/**
+ * Returns a char * with the next line on the file descriptor given.
+ */
 char	*get_next_line(int fd)
 {
 	static char	*txt[1000];

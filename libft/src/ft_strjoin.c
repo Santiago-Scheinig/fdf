@@ -6,13 +6,15 @@
 /*   By: sscheini <sscheini@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/15 19:33:04 by sscheini          #+#    #+#             */
-/*   Updated: 2025/03/31 12:03:25 by sscheini         ###   ########.fr       */
+/*   Updated: 2025/05/19 17:14:25 by sscheini         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-/* Returns a CHAR * with the result of concatenate 's1' and 's2'.			*/
+/**
+ * Returns a CHAR * with the result of concatenate 's1' and 's2'.
+ */
 char	*ft_strjoin(char const *s1, char const *s2)
 {
 	char	*ptr;

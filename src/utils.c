@@ -6,7 +6,7 @@
 /*   By: sscheini <sscheini@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/21 16:52:10 by sscheini          #+#    #+#             */
-/*   Updated: 2025/05/08 17:07:40 by sscheini         ###   ########.fr       */
+/*   Updated: 2025/05/19 17:34:29 by sscheini         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,9 +20,9 @@
  */
 int	ft_depth_color(t_vector a, t_vector b)
 {
-	int		a_z;
-	int		b_z;
-	
+	int	a_z;
+	int	b_z;
+
 	a_z = abs(a.axi.z);
 	b_z = abs(b.axi.z);
 	if (a_z > b_z)
@@ -38,7 +38,7 @@ int	ft_depth_color(t_vector a, t_vector b)
 int	ft_get_colour(char *colour, int z)
 {
 	int			ans;
-	
+
 	if (!colour)
 	{
 		if (z > 0)
@@ -59,7 +59,7 @@ int	ft_get_colour(char *colour, int z)
  * FINISHED
  * 
  */
-int		ft_get_widht(t_fdf *env)
+int	ft_get_widht(t_fdf *env)
 {
 	t_list	*span;
 	char	**y;
@@ -68,7 +68,7 @@ int		ft_get_widht(t_fdf *env)
 
 	widht = 0;
 	span = env->plane.span;
-	while(span)
+	while (span)
 	{
 		y = ft_split(span->content, ' ');
 		free(span->content);
@@ -92,7 +92,7 @@ int		ft_get_widht(t_fdf *env)
  * FINISHED
  * 
  */
-int		ft_get_depth(t_fdf *env)
+int	ft_get_depth(t_fdf *env)
 {
 	t_list	*span;
 	char	**y;

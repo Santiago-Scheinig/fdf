@@ -6,14 +6,16 @@
 /*   By: sscheini <sscheini@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/25 16:28:59 by sscheini          #+#    #+#             */
-/*   Updated: 2025/01/07 18:54:31 by sscheini         ###   ########.fr       */
+/*   Updated: 2025/05/19 17:12:35 by sscheini         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-/* Writes 'n' as a STRING into the 'fd' passed as an argument.				*/
-/* - Returns the amount of characters printed.								*/
+/**
+ * Writes 'n' as a STRING into the 'fd' passed as an argument.
+ * - Returns the amount of characters printed.
+ */
 int	ft_putnbr_fd(int n, int fd)
 {
 	int	w_bytes;
