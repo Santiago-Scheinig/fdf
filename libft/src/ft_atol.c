@@ -6,7 +6,7 @@
 /*   By: sscheini <sscheini@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/19 14:51:52 by sscheini          #+#    #+#             */
-/*   Updated: 2025/05/19 17:00:49 by sscheini         ###   ########.fr       */
+/*   Updated: 2025/05/27 20:36:13 by sscheini         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,13 @@ static	long	ft_issign(long c)
 }
 
 /**
- * Returns an long with the first number found on a CHAR *.
+ * Finds the first number on a STRING with a decimal base.
+ * @param str The string where the base number is saved.
+ * @param base The base in which the number must be found.
+ * @return The decimal LONG found on STR.
+ * @note A number can, but is not forced to, start with any
+ * amount of spaces and one sign; but the next character must 
+ * be a digit, if not or str doesn't exists, returns 0.
  */
 long	ft_atol(const char *nptr)
 {

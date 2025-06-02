@@ -6,7 +6,7 @@
 /*   By: sscheini <sscheini@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 16:08:21 by sscheini          #+#    #+#             */
-/*   Updated: 2025/05/19 17:33:21 by sscheini         ###   ########.fr       */
+/*   Updated: 2025/06/02 15:23:23 by sscheini         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 # include <string.h>
 # include <errno.h>
 # include <math.h>
-# include "libft.h"
+# include "../libft/include/libft.h"
 # include "MLX42_Int.h"
 # include "MLX42.h"
 
@@ -59,26 +59,26 @@ typedef struct s_map
 	int			depth;
 	int			widht;
 	int			height;
-	int			**z_buffer;
 }	t_map;
 
 typedef struct s_program
 {
 	t_axi_xyz		map_center;
 	t_axi_xyz		rotation_axi;
-	int				rotation_degrees;
-	int				map_projection;
+	int				hook_movement[4];
+	int				hook_rotation[2];
 	int				axi_value;
-	int				speed_value;
+	int				map_projection;
+	int				rotation_direction;
 	float			zoom_value;
 }	t_program;
 
 typedef struct s_fdf
 {
 	mlx_t			*window;
-	mlx_image_t		*bg;
 	mlx_image_t		*map;
-	mlx_image_t		*menu;
+	mlx_image_t		*bg;
+	mlx_image_t		*bg_name;
 	t_map			plane;
 	t_program		settings;
 }	t_fdf;
@@ -94,15 +94,7 @@ void		ft_default_settings(t_fdf *env, int camera_view);
 void		ft_forcend(t_fdf *fdf, int errin);
 
 /*--------------------------------------------------------------------------*/
-/*----------------------------------HOOKS-----------------------------------*/
-/*--------------------------------------------------------------------------*/
-
-void		ft_keyhook_camera(mlx_key_data_t keydata, void *param);
-
-void		ft_scrollhook_zoom(double xdelta, double ydelta, void *param);
-
-/*--------------------------------------------------------------------------*/
-/*---------------------------------CAMERA-----------------------------------*/
+/*-----------------------------------MATH-----------------------------------*/
 /*--------------------------------------------------------------------------*/
 
 t_axi_xyz	ft_rotate_x(t_axi_xyz px, double angle_degree);
@@ -123,7 +115,7 @@ void		ft_draw_background(mlx_image_t *img, int color);
 
 void		ft_draw_line(t_fdf *env, t_vector *line, t_vector *prev);
 
-void		ft_draw_map(t_fdf *env);
+void		ft_draw_map(void *param);
 
 /*--------------------------------------------------------------------------*/
 /*----------------------------------START-----------------------------------*/

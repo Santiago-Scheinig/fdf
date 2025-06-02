@@ -6,15 +6,17 @@
 /*   By: sscheini <sscheini@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/15 14:43:36 by sscheini          #+#    #+#             */
-/*   Updated: 2025/05/19 17:02:15 by sscheini         ###   ########.fr       */
+/*   Updated: 2025/05/27 20:40:59 by sscheini         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
 /**
- * Allocates 'nmemb'*'size' bytes of memory and sets them to '\0'.
- * - Returns a VOID * created as a result.
+ * Allocates NMEMB * SIZE bytes of memory and sets them to '\0'.
+ * @param nmemb The amount of memory bytes to allocate.
+ * @param size The size of each memory bytes.
+ * @return The void pointer allocated.
  */
 void	*ft_calloc(size_t nmemb, size_t size)
 {

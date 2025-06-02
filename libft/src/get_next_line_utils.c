@@ -6,7 +6,7 @@
 /*   By: sscheini <sscheini@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/05 05:12:25 by root              #+#    #+#             */
-/*   Updated: 2025/05/19 17:16:58 by sscheini         ###   ########.fr       */
+/*   Updated: 2025/05/27 16:53:19 by sscheini         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,4 +47,12 @@ char	*ft_checkbin(char *line)
 			line[i] = ' ';
 	}
 	return (line);
+}
+
+void	ft_rewrite(char **txt, int line_len, int end)
+{
+	if ((*txt) && (*txt)[line_len])
+		(*txt) = ft_calloc(end + 1, sizeof(char));
+	else
+		(*txt) = NULL;
 }

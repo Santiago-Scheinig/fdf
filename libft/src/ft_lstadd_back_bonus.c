@@ -6,15 +6,18 @@
 /*   By: sscheini <sscheini@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/25 17:36:37 by sscheini          #+#    #+#             */
-/*   Updated: 2025/05/19 17:03:44 by sscheini         ###   ########.fr       */
+/*   Updated: 2025/05/27 21:02:24 by sscheini         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
 /**
- * Adds the 'new' list to the end of the T_LIST **.
- * - If the T_LIST ** is empty, it sets 'new' at the start of it.
+ * Adds a LIST node at the end of a LIST HEAD.
+ * @param lst The LIST HEAD where to add the new node.
+ * @param new The new LIST node to add.
+ * @note If the LIST HEAD is empty, sets the new LIST node at the start
+ * of it.
  */
 void	ft_lstadd_back(t_list **lst, t_list *new)
 {

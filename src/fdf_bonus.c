@@ -1,25 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   fdf.c                                              :+:      :+:    :+:   */
+/*   fdf_bonus.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: sscheini <sscheini@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/03/20 16:08:24 by sscheini          #+#    #+#             */
-/*   Updated: 2025/06/02 12:35:50 by sscheini         ###   ########.fr       */
+/*   Created: 2025/06/02 10:45:20 by sscheini          #+#    #+#             */
+/*   Updated: 2025/06/02 16:18:15 by sscheini         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "fdf.h"
-
-static void	ft_keyhook_exit(mlx_key_data_t keydata, void *param)
-{
-	t_fdf	*env;
-
-	env = (t_fdf *) param;
-	if (keydata.key == MLX_KEY_ESCAPE && keydata.action == MLX_PRESS)
-		ft_forcend(env, MLX_SUCCESS);
-}
+#include "fdf_bonus.h"
 
 /**
  * Fdf failsafe, in case of error, frees all memory that could remain
@@ -55,6 +46,12 @@ void	ft_forcend(t_fdf *env, int errin)
  */
 void	ft_default_settings(t_fdf *env, int camera_view)
 {
+	env->settings.hook_movement[0] = 0;
+	env->settings.hook_movement[1] = 0;
+	env->settings.hook_movement[2] = 0;
+	env->settings.hook_movement[3] = 0;
+	env->settings.hook_rotation[0] = 0;
+	env->settings.hook_rotation[1] = 0;
 	env->settings.axi_value = AXI_Z;
 	env->settings.map_center.x = (env->bg->width / 2);
 	env->settings.map_center.y = (env->bg->height / 2);
@@ -67,30 +64,74 @@ void	ft_default_settings(t_fdf *env, int camera_view)
 }
 
 /**
+ * 
+ *  FINISHED
+ * 
+ */
+static void	ft_rotate(t_fdf *env, int direction)
+{
+	env->settings.rotation_direction = direction;
+	if (env->settings.axi_value == AXI_X)
+		ft_rotate_x_axi(env);
+	if (env->settings.axi_value == AXI_Y)
+		ft_rotate_y_axi(env);
+	if (env->settings.axi_value == AXI_Z)
+		ft_rotate_z_axi(env);
+}
+
+/**
+ * 
+ * 
+ * 
+ */
+static void	ft_redraw_map(void *param)
+{
+	t_fdf	*env;
+	int		shift;
+
+	shift = 1;
+	env = (t_fdf *) param;
+	if (env->settings.hook_movement[0])
+		ft_move_left(env);
+	else if (env->settings.hook_movement[1])
+		ft_move_right(env);
+	else if (env->settings.hook_movement[2])
+		ft_move_up(env);
+	else if (env->settings.hook_movement[3])
+		ft_move_down(env);
+	else if (env->settings.hook_rotation[0])
+		ft_rotate(env, -1);
+	else if (env->settings.hook_rotation[1])
+		ft_rotate(env, 1);
+	else
+		shift = 0;
+	if (shift)
+		ft_draw_map(env);
+	mlx_image_to_window(env->window, env->map, 0, 0);
+}
+
+/**
  * Fdf is a program capable of printing an .fdf map file as a
  * three dimensional image on it's own program window.
  */
 int	main(int argc, char **argv)
 {
-	int		fd;
-	t_fdf	env;
+	int			fd;
+	t_fdf		env;
 
 	if (argc != 2 || !ft_strnstr(argv[1], ".fdf\0", ft_strlen(argv[1])))
-	{
-		ft_printfd(STDERR_FILENO, "Error: %s.\n", mlx_strerror(MLX_INVEXT));
-		exit(EXIT_FAILURE);
-	}
+		ft_forcend(NULL, MLX_INVEXT);
 	fd = open(argv[1], O_RDONLY);
 	if (fd < 0)
-	{
-		ft_printfd(STDERR_FILENO, "Error: %s.\n", mlx_strerror(MLX_INVFILE));
-		exit(EXIT_FAILURE);
-	}
+		ft_forcend(NULL, MLX_INVFILE);
 	ft_fdf_init(&env, fd, argv[1]);
 	close(fd);
 	if (env.plane.height)
 		ft_map_init(&env);
-	mlx_key_hook(env.window, ft_keyhook_exit, &env);
+	mlx_key_hook(env.window, ft_keyhook_fdf, &env);
+	mlx_scroll_hook(env.window, ft_scrollhook_zoom, &env);
+	if (!mlx_loop_hook(env.window, ft_redraw_map, &env))
+		ft_forcend(&env, MLX_WINFAIL);
 	mlx_loop(env.window);
 	ft_forcend(&env, MLX_SUCCESS);
 }

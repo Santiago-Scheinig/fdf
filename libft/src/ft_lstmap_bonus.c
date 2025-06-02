@@ -6,16 +6,22 @@
 /*   By: sscheini <sscheini@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/02 20:51:56 by sscheini          #+#    #+#             */
-/*   Updated: 2025/05/19 17:04:48 by sscheini         ###   ########.fr       */
+/*   Updated: 2025/05/27 21:12:48 by sscheini         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
 /**
- * Creates a T_LIST * result of iterate 'f' on every 'lst.content'.
- * - If a node created iterating 'f' fails, it frees all the previous nodes.
- * - Returns the T_LIST * resulted of iterating 'f' on every 'lst.content'.
+ * Creates and allocates a new LIST result of iterating a FUNCTION on every
+ * content of the original LIST.
+ * @param lst The starting node to start iterating.
+ * @param f The FUNCTION to iterate on every content.
+ * @param del The FUNCTION used to free each content in case of error.
+ * @return A pointer to the start of the new allocated LIST; or NULL in case
+ * of error.
+ * @note If any node creation fails, frees every other previous iteration
+ * using the del FUNCTION on every content. Usually being free().
  */
 t_list	*ft_lstmap(t_list *lst, void *(*f)(void *), void (*del)(void *))
 {

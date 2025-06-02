@@ -6,15 +6,18 @@
 /*   By: sscheini <sscheini@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/14 20:21:20 by sscheini          #+#    #+#             */
-/*   Updated: 2025/05/19 17:14:03 by sscheini         ###   ########.fr       */
+/*   Updated: 2025/05/27 21:50:56 by sscheini         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
 /**
- * Returns a CHAR * to the first ocurrance of 'c' inside 's'.
- * - Return NULL in case no ocurrance is found.
+ * Searches for the first ocurrance of a character on a STRING.
+ * @param s The STRING where to find the ocurrance.
+ * @param c The character to be found.
+ * @return A pointer to a position of the STRING with the first 
+ * character ocurrance. If no ocurrance is found, returns NULL. 
  */
 char	*ft_strchr(const char *s, int c)
 {

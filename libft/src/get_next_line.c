@@ -6,7 +6,7 @@
 /*   By: sscheini <sscheini@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/05 05:11:45 by root              #+#    #+#             */
-/*   Updated: 2025/05/19 17:17:45 by sscheini         ###   ########.fr       */
+/*   Updated: 2025/06/02 10:44:55 by sscheini         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
  * - Frees every position of text, returning NULL to indicate an error
  *	 ocurred.
  */
-static	void	*ft_forcend(char **txt)
+static	void	*ft_forcend(char **txt, char *ft_error)
 {
 	int		i;
 
@@ -27,6 +27,7 @@ static	void	*ft_forcend(char **txt)
 		free(txt[i]);
 		txt[i] = NULL;
 	}
+	perror(ft_error);
 	return (NULL);
 }
 
@@ -113,9 +114,9 @@ static	char	*ft_line_text(char **txt)
 		return (NULL);
 	ft_strlcpy(line, (*txt), line_len + 1);
 	aux = (*txt);
-	end = ft_strlend(&(*txt)[line_len], 0);
-	(*txt) = ft_calloc(end + 1, sizeof(char));
-	if (end != 0)
+	end = ft_strlen(&(*txt)[line_len]);
+	ft_rewrite(txt, line_len, end);
+	if (end)
 		ft_strlcpy((*txt), &aux[line_len], end + 1);
 	free(aux);
 	return (line);
@@ -133,7 +134,7 @@ char	*get_next_line(int fd)
 		return (NULL);
 	txt[fd] = ft_read_text(txt[fd], fd);
 	if (!txt[fd])
-		return (ft_forcend(txt));
+		return (ft_forcend(txt, "Ft_read_text"));
 	if (!txt[fd][0])
 	{
 		free(txt[fd]);
@@ -142,7 +143,10 @@ char	*get_next_line(int fd)
 	}
 	else
 		line = ft_line_text(&txt[fd]);
-	if (!line)
-		return (ft_forcend(txt));
+	if (!line && txt[fd])
+	{
+		errno = EIO;
+		return (ft_forcend(txt, "Ft_line_text"));
+	}
 	return (line);
 }

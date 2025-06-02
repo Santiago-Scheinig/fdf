@@ -6,15 +6,21 @@
 /*   By: sscheini <sscheini@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/15 17:53:07 by sscheini          #+#    #+#             */
-/*   Updated: 2025/05/19 17:16:16 by sscheini         ###   ########.fr       */
+/*   Updated: 2025/05/27 22:16:48 by sscheini         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
 /**
- * Returns a new CHAR * with 'len' bytes copied from 's[start]'.
- * - If start > s_len, it returns a new CHAR * with 1 '\0' byte allocated.
+ * Creates and allocates a new STRING with len bytes copied from the 
+ * CONST STRING starting on the start position.
+ * @param s The CONST STRING to copy from.
+ * @param start The index of the CONST STRING to start copying from.
+ * @param len The amount of bytes to be copied.
+ * @return A pointer to a new STRING resultant of the copy.
+ * @note - If start > s_len, it returns a pointer to a new STRING 
+ * with one '\0' byte allocated.
  */
 char	*ft_substr(char const *s, unsigned int start, size_t len)
 {

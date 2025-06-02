@@ -6,14 +6,21 @@
 /*   By: sscheini <sscheini@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/12 19:32:51 by sscheini          #+#    #+#             */
-/*   Updated: 2025/05/19 17:06:03 by sscheini         ###   ########.fr       */
+/*   Updated: 2025/05/27 21:25:12 by sscheini         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
 /**
- * Moves 'n' bytes from 'src' into 'dest', returning 'dest'.
+ * Moves n bytes from a src VOID pointer into a dest VOID pointer.
+ * @param dest The VOID pointer where to move bytes into.
+ * @param src The VOID pointer where to move bytes from.
+ * @param n The amount of bytes to be moved.
+ * @return The VOID pointer to dest.
+ * @note This function modifies the dest VOID pointer and, additionally,
+ * checks if the memory position of src is close to dest to avoid loosing
+ * information during the movement.
  */
 void	*ft_memmove(void *dest, const void *src, size_t n)
 {

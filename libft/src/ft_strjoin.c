@@ -6,14 +6,21 @@
 /*   By: sscheini <sscheini@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/15 19:33:04 by sscheini          #+#    #+#             */
-/*   Updated: 2025/05/19 17:14:25 by sscheini         ###   ########.fr       */
+/*   Updated: 2025/05/27 21:54:41 by sscheini         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
 /**
- * Returns a CHAR * with the result of concatenate 's1' and 's2'.
+ * Creates and allocates a new STRING with the result of concatenate two
+ * other STRINGS.
+ * @param s1 The first STRING to be concatenated.
+ * @param s2 The second STRING ot be concatenated.
+ * @return A pointer to the new allocated STRING, resulted from the 
+ * concatenation; Or NULL in case of error.
+ * @note If any of the STRING to be concatenated are non-existent, it
+ * returns an error.
  */
 char	*ft_strjoin(char const *s1, char const *s2)
 {

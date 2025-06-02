@@ -6,12 +6,11 @@
 /*   By: sscheini <sscheini@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/02 17:01:09 by sscheini          #+#    #+#             */
-/*   Updated: 2025/05/19 17:35:11 by sscheini         ###   ########.fr       */
+/*   Updated: 2025/06/02 15:30:39 by sscheini         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
-#include "index.h"
 
 /**
  * Initializes each T_VECTOR on it's default T_MAP basis, giving each axi
@@ -88,50 +87,30 @@ void	ft_map_init(t_fdf *env)
 
 /**
  * 
- * PENDING - USER MENU - Static Linked to ft_fdf_init
- * CANT MAKE A LOADING SCREEN WITHOUT A FORK SADLY.
- */
-static void	ft_usr_init(t_fdf *env, char *file_name)
-{
-	mlx_image_t	*title;
-	mlx_image_t	*file;
-
-	env->menu = mlx_new_image(env->window, ((2 * WIN_WIDHT) / 10), WIN_HEIGHT);
-	if (!env->menu)
-		ft_forcend(env, MLX_MEMFAIL);
-	ft_draw_background(env->menu, 0x844900);
-	mlx_image_to_window(env->window, env->menu, env->bg->width, 0);
-	title = mlx_put_string(env->window, "FDF", env->bg->width + (env->menu->width / 5), 0);
-	file = mlx_put_string(env->window, file_name, 20, env->bg->height - 20);
-	mlx_resize_image(title, 200, 200);
-}
-
-/**
- * 
  * WORKS - MIGHT NEED IMPROVEMENT IF NEW FUNCTIONS ARE ADDED
  * 
  */
-void	ft_fdf_init(t_fdf *env, int fd, char *file_name)
+void	ft_fdf_init(t_fdf *env, int fd, char *name)
 {
 	int	x;
 	int	y;
 
 	env->bg = NULL;
 	env->map = NULL;
-	env->menu = NULL;
+	env->bg_name = NULL;
 	env->window = NULL;
 	env->plane.span = NULL;
-	env->window = mlx_init(WIN_WIDHT, WIN_HEIGHT, "FDF", true);
+	env->window = mlx_init(WIN_WIDHT, WIN_HEIGHT, "FDF", false);
 	if (!env->window)
 		ft_forcend(env, MLX_WINFAIL);
-	x = WIN_WIDHT - ((2 * WIN_WIDHT) / 10);
+	x = WIN_WIDHT;
 	y = WIN_HEIGHT;
 	env->bg = mlx_new_image(env->window, x, y);
 	if (!env->bg)
 		ft_forcend(env, MLX_MEMFAIL);
 	ft_draw_background(env->bg, 0x000000);
 	mlx_image_to_window(env->window, env->bg, 0, 0);
-	ft_usr_init(env, file_name);
+	env->bg_name = mlx_put_string(env->window, name, 20, env->bg->height - 20);
 	env->plane.height = ft_read_file(&env->plane.span, fd);
 	if (env->plane.height < 0)
 		ft_forcend(env, MLX_MEMFAIL);

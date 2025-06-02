@@ -6,6 +6,8 @@ SRC		=	$(SRCDIR)ft_argjoin.c					\
 			$(SRCDIR)ft_atoi_base.c					\
 			$(SRCDIR)ft_bzero.c						\
 			$(SRCDIR)ft_calloc.c					\
+			$(SRCDIR)ft_iq_split.c					\
+			$(SRCDIR)ft_iq_strchr.c					\
 			$(SRCDIR)ft_itoa.c						\
 			$(SRCDIR)ft_isalnum.c					\
 			$(SRCDIR)ft_isascii.c					\

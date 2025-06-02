@@ -6,17 +6,22 @@
 /*   By: sscheini <sscheini@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/12 17:16:10 by sscheini          #+#    #+#             */
-/*   Updated: 2025/05/19 17:14:37 by sscheini         ###   ########.fr       */
+/*   Updated: 2025/05/27 22:00:32 by sscheini         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
 /**
- * Concatenates 'size' bytes from 'src' at the end of 'dst'.
- * - If 'size' <= dst_len, it doesn't concatenate.
- * - If 'size' >= dst_len + src_len + 1, it concatenates all of 'src'.
- * - Else, it truncates the concatenation after 'size' - 1 bytes.
+ * Concatenates size bytes from a CONST STRING src at the end of a STRING des.
+ * @param dst The STRING where to concatenate src.
+ * @param src The CONST STRING to be concatenated into des.
+ * @param size The amount of bytes to be concatenated from src into des.
+ * @return The total lenght of the STRING tried to concatenate, in this case,
+ * the initial lenght of des plus the lenght of src.
+ * @note - If size <= dst_len, it doesn't concatenate.
+ * @note - If size >= dst_len + src_len + 1, it concatenates all of src.
+ * @note - Else, it truncates the concatenation after size - 1 bytes.
  */
 size_t	ft_strlcat(char *dst, const char *src, size_t size)
 {

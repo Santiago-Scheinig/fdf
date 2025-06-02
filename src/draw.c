@@ -6,12 +6,65 @@
 /*   By: sscheini <sscheini@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/31 12:39:50 by sscheini          #+#    #+#             */
-/*   Updated: 2025/05/19 17:33:44 by sscheini         ###   ########.fr       */
+/*   Updated: 2025/06/02 15:33:58 by sscheini         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
-#include "index.h"
+
+/**
+ * 
+ * FINISHED
+ * 
+ */
+static t_double_axi	ft_dda_difference(t_vector a, t_vector b, double *step)
+{
+	t_double_axi	d;
+	t_double_axi	d_module;
+
+	d.x = b.axi.x - a.axi.x;
+	d.y = b.axi.y - a.axi.y;
+	d_module.x = fabs(d.x);
+	d_module.y = fabs(d.y);
+	if (d_module.x >= d_module.y)
+		(*step) = d_module.x;
+	else
+		(*step) = d_module.y;
+	d.x = d.x / (*step);
+	d.y = d.y / (*step);
+	return (d);
+}
+
+/**
+ * 
+ * FINISHED
+ * 
+ */
+void	ft_dda(t_fdf *fdf, t_vector a, t_vector b, int color)
+{
+	t_double_axi	d;
+	t_double_axi	d_pxl;
+	t_axi_xyz		i_pxl;
+	double			index;
+	double			step;
+
+	d = ft_dda_difference(a, b, &step);
+	d_pxl.x = a.axi.x;
+	d_pxl.y = a.axi.y;
+	index = -1;
+	i_pxl.x = round(d_pxl.x);
+	i_pxl.y = round(d_pxl.y);
+	while (++index <= step)
+	{
+		i_pxl.x = round(d_pxl.x);
+		i_pxl.y = round(d_pxl.y);
+		if (!(i_pxl.x <= 0 || i_pxl.x >= (int) fdf->map->width)
+			&& !(i_pxl.y <= 0 || i_pxl.y >= (int) fdf->map->height))
+			mlx_put_pixel(fdf->map, i_pxl.x, i_pxl.y, color);
+		d_pxl.x += d.x;
+		d_pxl.y += d.y;
+	}
+}
 
 /**
  * Draws a background on the MLX_IMAGE structure using the given color.
@@ -65,11 +118,13 @@ void	ft_draw_line(t_fdf *env, t_vector *line, t_vector *prev)
  *	WORKS - COULD BE MERGED WITH FT_DRAW_LINE?
  * 
  */
-void	ft_draw_map(t_fdf *env)
+void	ft_draw_map(void *param)
 {
+	t_fdf		*env;
 	t_list		*span;
 	t_vector	*prev;
 
+	env = (t_fdf *) param;
 	ft_memset(env->map->pixels, 0, env->map->height * env->map->width * BPP);
 	span = env->plane.span;
 	prev = NULL;
@@ -78,59 +133,5 @@ void	ft_draw_map(t_fdf *env)
 		ft_draw_line(env, span->content, prev);
 		prev = span->content;
 		span = span->next;
-	}
-}
-
-/**
- * 
- * FINISHED
- * 
- */
-static t_double_axi	ft_dda_difference(t_vector a, t_vector b, double *step)
-{
-	t_double_axi	d;
-	t_double_axi	d_module;
-
-	d.x = b.axi.x - a.axi.x;
-	d.y = b.axi.y - a.axi.y;
-	d_module.x = fabs(d.x);
-	d_module.y = fabs(d.y);
-	if (d_module.x >= d_module.y)
-		(*step) = d_module.x;
-	else
-		(*step) = d_module.y;
-	d.x = d.x / (*step);
-	d.y = d.y / (*step);
-	return (d);
-}
-
-/**
- * 
- * FINISHED
- * 
- */
-void	ft_dda(t_fdf *fdf, t_vector a, t_vector b, int color)
-{
-	t_double_axi	d;
-	t_double_axi	d_pxl;
-	t_axi_xyz		i_pxl;
-	double			index;
-	double			step;
-
-	d = ft_dda_difference(a, b, &step);
-	d_pxl.x = a.axi.x;
-	d_pxl.y = a.axi.y;
-	index = -1;
-	i_pxl.x = round(d_pxl.x);
-	i_pxl.y = round(d_pxl.y);
-	while (++index <= step)
-	{
-		i_pxl.x = round(d_pxl.x);
-		i_pxl.y = round(d_pxl.y);
-		if (!(i_pxl.x <= 0 || i_pxl.x >= (int) fdf->map->width)
-			&& !(i_pxl.y <= 0 || i_pxl.y >= (int) fdf->map->height))
-			mlx_put_pixel(fdf->map, i_pxl.x, i_pxl.y, color);
-		d_pxl.x += d.x;
-		d_pxl.y += d.y;
 	}
 }

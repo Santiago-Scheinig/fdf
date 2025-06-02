@@ -6,14 +6,17 @@
 /*   By: sscheini <sscheini@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 17:50:20 by sscheini          #+#    #+#             */
-/*   Updated: 2025/05/19 17:14:54 by sscheini         ###   ########.fr       */
+/*   Updated: 2025/05/27 22:04:09 by sscheini         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
 /**
- * Returns the count of characters on 's', not including the '\0'.
+ * Counts the amount of characters on a CONST STRING.
+ * @param s The CONST STRING to count characters from.
+ * @return An INT with the amount of characters counted.
+ * @note This function doesn't count the '\0' character.
  */
 size_t	ft_strlen(const char *s)
 {

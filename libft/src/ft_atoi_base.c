@@ -6,17 +6,17 @@
 /*   By: sscheini <sscheini@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 18:52:46 by sscheini          #+#    #+#             */
-/*   Updated: 2025/05/19 13:09:50 by sscheini         ###   ########.fr       */
+/*   Updated: 2025/05/27 20:31:22 by sscheini         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
 /**
- * Returns an INT with the first number found on CHAR * in accordance
- * to the specified base.
- * @param[in] str The string where the base number is saved.
- * @param[in] base The base in which the number must be found.
+ * Finds the first number on a STRING following the specified base.
+ * @param str The string where the base number is saved.
+ * @param base The base in which the number must be found.
+ * @return The INT found on STR following the BASE.
  * @note If str has characters not included on the base, or str doesn't
  * exists, returns 0.
  */

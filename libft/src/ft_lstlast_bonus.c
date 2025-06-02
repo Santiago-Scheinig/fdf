@@ -6,14 +6,17 @@
 /*   By: sscheini <sscheini@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/25 17:26:21 by sscheini          #+#    #+#             */
-/*   Updated: 2025/05/19 17:04:35 by sscheini         ###   ########.fr       */
+/*   Updated: 2025/05/27 21:09:12 by sscheini         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
 /**
- * Returns a T_LIST * to the last node of 'lst'.
+ * Searches for a pointer to the last LIST node to be found.
+ * @param lst The starting node.
+ * @return A pointer to the last LIST node.
+ * @note If the starting node doesn't exists, returns NULL.
  */
 t_list	*ft_lstlast(t_list *lst)
 {

@@ -6,17 +6,20 @@
 /*   By: sscheini <sscheini@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 18:32:09 by sscheini          #+#    #+#             */
-/*   Updated: 2025/05/19 17:30:32 by sscheini         ###   ########.fr       */
+/*   Updated: 2025/05/27 21:47:08 by sscheini         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
 /**
- *	Reads on FD line by line until EOF and saves it in the lines argument.
- *	- Returns the amount of lines read. A line with just '\n' doesn't sum
- *	to the line read count.
- *	- If allocation error, returns -1.
+ * Reads and saves a file until EOF, specified by a file descriptor and 
+ * dividing it by lines.
+ * @param lines The LIST HEAD where to create new nodes for every line read.
+ * @param fd The file descriptor to read from.
+ * @return The amount of lines read or -1 in case of error.
+ * @note A line that is just conformed by a single '\n' character isn't saved
+ * and doesn't sum for the amount of lines read.
  */
 int	ft_read_file(t_list **lines, int fd)
 {

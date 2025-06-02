@@ -6,14 +6,16 @@
 /*   By: sscheini <sscheini@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/25 17:19:46 by sscheini          #+#    #+#             */
-/*   Updated: 2025/05/19 17:05:18 by sscheini         ###   ########.fr       */
+/*   Updated: 2025/05/27 21:14:04 by sscheini         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
 /**
- * Returns a count off all the nodes inside 'lst'.
+ * Counts the amount of node included on a LIST.
+ * @param lst The starting node where to start counting.
+ * @return An int with the amount of nodes inside of the LIST.
  */
 int	ft_lstsize(t_list *lst)
 {
