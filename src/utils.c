@@ -6,7 +6,7 @@
 /*   By: sscheini <sscheini@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/21 16:52:10 by sscheini          #+#    #+#             */
-/*   Updated: 2025/06/03 17:31:41 by sscheini         ###   ########.fr       */
+/*   Updated: 2025/06/03 21:56:00 by sscheini         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,10 +50,9 @@ int	ft_get_colour(char *colour, int z)
 			return (0xFF0000FF + (0x111100 * z));
 		return (0xFFFFFFFF);
 	}
-	colour += 3;
-	ans = ft_atoi_base(colour, "0123456789abcdef");
+	ans = ft_atoi_base(&colour[3], "0123456789abcdef");
 	if (!ans)
-		ans = ft_atoi_base(colour, "0123456789ABCDEF");
+		ans = ft_atoi_base(&colour[3], "0123456789ABCDEF");
 	return (ans);
 }
 
