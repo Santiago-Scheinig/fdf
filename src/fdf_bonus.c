@@ -6,7 +6,7 @@
 /*   By: sscheini <sscheini@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/02 10:45:20 by sscheini          #+#    #+#             */
-/*   Updated: 2025/06/02 16:18:15 by sscheini         ###   ########.fr       */
+/*   Updated: 2025/06/03 17:46:12 by sscheini         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,8 @@
 /**
  * Fdf failsafe, in case of error, frees all memory that could remain
  * allocated in the main structure.
- * @param[in] env The main environment fdf structure.
- * @param[in] errin The MLX index number of the error in question.
+ * @param env The main environment fdf structure.
+ * @param errin The MLX index number of the error in question.
  */
 void	ft_forcend(t_fdf *env, int errin)
 {
@@ -39,10 +39,9 @@ void	ft_forcend(t_fdf *env, int errin)
 }
 
 /**
- * 
- *	FINISHED - Optimized to be a reset button only, that way math is calculated
- * 	only when needed;
- * 
+ * Sets the default settings of the fdf program.
+ * @param env The main enviroment fdf structure.
+ * @param camera_view The camera view which the map will be display.
  */
 void	ft_default_settings(t_fdf *env, int camera_view)
 {
@@ -64,9 +63,10 @@ void	ft_default_settings(t_fdf *env, int camera_view)
 }
 
 /**
- * 
- *  FINISHED
- * 
+ * Reads in wich AXI the user is interacting, and rotates the respected AXI
+ * in accordance to user input.
+ * @param env The main fdf enviroment structure.
+ * @param direction The direction of the rotation: left [-x], right [+x].
  */
 static void	ft_rotate(t_fdf *env, int direction)
 {
@@ -80,9 +80,13 @@ static void	ft_rotate(t_fdf *env, int direction)
 }
 
 /**
- * 
- * 
- * 
+ * Verifies the user input to interact with the map, and if any interaction
+ * it's made, then the map is modified and reprinted in screen.
+ * @param param A VOID pointer to the main fdf enviroment structure.
+ * @note This function is addapted to work together with MLX_LOOP_HOOK, with
+ * the format of generic functions [ void (*f)(void*) ] to be executed 
+ * frame by frame on loop. This way, user interaction with the program is 
+ * time reestricted to the machine proccess of each execution.
  */
 static void	ft_redraw_map(void *param)
 {
@@ -91,13 +95,15 @@ static void	ft_redraw_map(void *param)
 
 	shift = 1;
 	env = (t_fdf *) param;
-	if (env->settings.hook_movement[0])
+	if (env->settings.hook_movement[0] && env->settings.map_center.x > 0)
 		ft_move_left(env);
-	else if (env->settings.hook_movement[1])
+	else if (env->settings.hook_movement[1]
+		&& env->settings.map_center.x < (int) env->map->width)
 		ft_move_right(env);
-	else if (env->settings.hook_movement[2])
+	else if (env->settings.hook_movement[2] && env->settings.map_center.y > 0)
 		ft_move_up(env);
-	else if (env->settings.hook_movement[3])
+	else if (env->settings.hook_movement[3]
+		&& env->settings.map_center.y < (int) env->map->height)
 		ft_move_down(env);
 	else if (env->settings.hook_rotation[0])
 		ft_rotate(env, -1);

@@ -6,12 +6,19 @@
 /*   By: sscheini <sscheini@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 16:08:24 by sscheini          #+#    #+#             */
-/*   Updated: 2025/06/02 12:35:50 by sscheini         ###   ########.fr       */
+/*   Updated: 2025/06/02 17:43:04 by sscheini         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
 
+/**
+ * A hook to the escape key, which will close the program after freeing all
+ * allocated memory.
+ * @param keydata The data of the key being pressed.
+ * @param param A VOID * to the parameter to be used if the hook triggers,
+ * the main fdf structure in this case.
+ */
 static void	ft_keyhook_exit(mlx_key_data_t keydata, void *param)
 {
 	t_fdf	*env;
@@ -24,8 +31,8 @@ static void	ft_keyhook_exit(mlx_key_data_t keydata, void *param)
 /**
  * Fdf failsafe, in case of error, frees all memory that could remain
  * allocated in the main structure.
- * @param[in] env The main environment fdf structure.
- * @param[in] errin The MLX index number of the error in question.
+ * @param env The main environment fdf structure.
+ * @param errin The MLX index number of the error in question.
  */
 void	ft_forcend(t_fdf *env, int errin)
 {
@@ -48,10 +55,9 @@ void	ft_forcend(t_fdf *env, int errin)
 }
 
 /**
- * 
- *	FINISHED - Optimized to be a reset button only, that way math is calculated
- * 	only when needed;
- * 
+ * Sets the default settings of the fdf program.
+ * @param env The main enviroment fdf structure.
+ * @param camera_view The camera view which the map will be display.
  */
 void	ft_default_settings(t_fdf *env, int camera_view)
 {

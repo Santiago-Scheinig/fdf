@@ -6,7 +6,7 @@
 /*   By: sscheini <sscheini@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/02 17:01:09 by sscheini          #+#    #+#             */
-/*   Updated: 2025/06/02 15:30:39 by sscheini         ###   ########.fr       */
+/*   Updated: 2025/06/02 17:46:00 by sscheini         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,9 +15,9 @@
 /**
  * Initializes each T_VECTOR on it's default T_MAP basis, giving each axi
  * it's correspondent X, Y and Z value.
- * @param[in] fdf The main setting fdf structure.
- * @param[in] plane The text based three dimensional plane values.
- * @note It also saves the pixel colour if it's detailed. If not, it sets it
+ * @param env The main enviroment fdf structure.
+ * @param plane The text based three dimensional plane values.
+ * @note It also saves the pixel colour detailed, if not, it sets it
  * to white.
  */
 static t_vector	*ft_vector_read(t_fdf *env, char **vectors)
@@ -52,9 +52,9 @@ static t_vector	*ft_vector_read(t_fdf *env, char **vectors)
 /**
  * Initializes a T_MAP structure using the information included on an .fdf 
  * file.
- * @param[out] fdf The main fdf setting structure.
- * @param[in] file_name The name of the .fdf file or absolute path to it.
- * @note If any error occurs, the program ends.
+ * @param env The main fdf enviroment structure.
+ * @note Initializing the map will also draw it on screen with an ISOMETRIC
+ * PROJECTION by default.
  */
 void	ft_map_init(t_fdf *env)
 {
@@ -86,9 +86,10 @@ void	ft_map_init(t_fdf *env)
 }
 
 /**
- * 
- * WORKS - MIGHT NEED IMPROVEMENT IF NEW FUNCTIONS ARE ADDED
- * 
+ * Initializes the fdf program.
+ * @param env The main fdf enviroment structure.
+ * @param fd The file descriptor to the .fdf map.
+ * @param name The file name to be printed on screen. 
  */
 void	ft_fdf_init(t_fdf *env, int fd, char *name)
 {
