@@ -6,7 +6,7 @@
 /*   By: sscheini <sscheini@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/19 17:43:41 by sscheini          #+#    #+#             */
-/*   Updated: 2025/05/27 22:14:17 by sscheini         ###   ########.fr       */
+/*   Updated: 2025/06/03 21:10:01 by sscheini         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,8 @@ char	*ft_strtrim(char const *s1, char const *set)
 	int		i;
 
 	i = 0;
+	if (!s1 || !set)
+		return (NULL);
 	while (ft_istrim(s1[i], set))
 		i++;
 	s1_len = ft_strlen(&s1[i]);
