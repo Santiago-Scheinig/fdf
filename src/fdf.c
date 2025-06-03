@@ -6,7 +6,7 @@
 /*   By: sscheini <sscheini@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 16:08:24 by sscheini          #+#    #+#             */
-/*   Updated: 2025/06/02 17:43:04 by sscheini         ###   ########.fr       */
+/*   Updated: 2025/06/03 18:45:00 by sscheini         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,7 @@ int	main(int argc, char **argv)
 	int		fd;
 	t_fdf	env;
 
-	if (argc != 2 || !ft_strnstr(argv[1], ".fdf\0", ft_strlen(argv[1])))
+	if (argc != 2 || ft_memcmp(ft_strchr(argv[1], '.'), ".fdf\0", 5))
 	{
 		ft_printfd(STDERR_FILENO, "Error: %s.\n", mlx_strerror(MLX_INVEXT));
 		exit(EXIT_FAILURE);

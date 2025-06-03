@@ -6,7 +6,7 @@
 /*   By: sscheini <sscheini@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/02 10:45:20 by sscheini          #+#    #+#             */
-/*   Updated: 2025/06/03 17:46:12 by sscheini         ###   ########.fr       */
+/*   Updated: 2025/06/03 18:42:44 by sscheini         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -125,11 +125,17 @@ int	main(int argc, char **argv)
 	int			fd;
 	t_fdf		env;
 
-	if (argc != 2 || !ft_strnstr(argv[1], ".fdf\0", ft_strlen(argv[1])))
-		ft_forcend(NULL, MLX_INVEXT);
+	if (argc != 2 || ft_memcmp(ft_strchr(argv[1], '.'), ".fdf\0", 5))
+	{
+		ft_printfd(STDERR_FILENO, "Error: %s.\n", mlx_strerror(MLX_INVEXT));
+		exit(EXIT_FAILURE);
+	}
 	fd = open(argv[1], O_RDONLY);
 	if (fd < 0)
-		ft_forcend(NULL, MLX_INVFILE);
+	{
+		ft_printfd(STDERR_FILENO, "Error: %s.\n", mlx_strerror(MLX_INVFILE));
+		exit(EXIT_FAILURE);
+	}
 	ft_fdf_init(&env, fd, argv[1]);
 	close(fd);
 	if (env.plane.height)

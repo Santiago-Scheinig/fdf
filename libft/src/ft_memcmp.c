@@ -6,7 +6,7 @@
 /*   By: sscheini <sscheini@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/15 13:39:12 by sscheini          #+#    #+#             */
-/*   Updated: 2025/05/27 21:19:28 by sscheini         ###   ########.fr       */
+/*   Updated: 2025/06/03 18:43:31 by sscheini         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,8 @@ int	ft_memcmp(const void *s1, const void *s2, size_t n)
 	size_t			i;
 
 	i = 0;
+	if (!s1 || !s2)
+		return (n);
 	s1_c = (unsigned char *) s1;
 	s2_c = (unsigned char *) s2;
 	while (i < n && s1_c[i] == s2_c[i])
